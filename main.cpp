@@ -1,11 +1,19 @@
 #include "TankWarGUI.h"
 #include <QtWidgets/QApplication>
 #include "statics.h"
+#include "ImageResource.h"
 
-int main(int argc, char *argv[])
+int arg0 = 1;
+int& arg1 = arg0;
+char **arg2;
+
+ImageResource statics::image_resourse;
+QApplication statics::qapp(arg1,arg2);
+TankWarGUI statics::gui;
+int main()
 {
-    QApplication a(argc, argv);
     statics st;
     st.gui.show();
-    return a.exec();
+
+    return st.qapp.exec();
 }

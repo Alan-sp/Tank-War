@@ -1,10 +1,10 @@
 #pragma once
 #include <map>
-#include <qimage.h>
+#include <qpixmap.h>
 class ImageResource
 {
 private:
-	std::map <int, QImage> imap;//´¢´æÍ¼Æ¬
+	std::map <int, QPixmap> imap;//QPixmap storage
 
 public:
 
@@ -12,7 +12,6 @@ public:
 	~ImageResource(){}
 
 	bool addImageResource(int flag, std::string file);
-	QImage getImage(int flag);
+	QPixmap getImage(int flag);
 
 };
-
