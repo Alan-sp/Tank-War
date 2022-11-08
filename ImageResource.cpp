@@ -1,19 +1,19 @@
 #include "ImageResource.h"
 
-bool ImageResource::addImageResource(int flag, std::string file) {
-	std::map <int, QImage>::iterator i;
+bool ImageResource::addImageResource(int flag, std::string file) {//register pixmap for this flag
+	std::map <int, QPixmap>::iterator i;
 	i = imap.find(flag);
-	if (i != imap.end())return false;//这个flag已经存在
+	if (i != imap.end())return false;//If this flag already exist
 	QString qfilename(file.c_str());
-	QImage img(qfilename);
-	imap.insert(std::map<int, QImage>::value_type(flag, img));
+	QPixmap img(qfilename);
+	imap.insert(std::map<int, QPixmap>::value_type(flag, img));
 	return true;
 }
 
-QImage ImageResource::getImage(int flag)
+QPixmap ImageResource::getImage(int flag)//get pixmap by flag
 {
-	std::map <int, QImage>::iterator i;
+	std::map <int, QPixmap>::iterator i;
 	i = imap.find(flag);
-	if (i == imap.end())return QImage();
+	if (i == imap.end())return QPixmap();
 	return i->second;
 }
