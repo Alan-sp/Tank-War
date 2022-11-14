@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+//#include"tank.cpp"
 using namespace std;
 class object{
 	public :
@@ -11,6 +12,7 @@ class object{
 		}
 		void collapase(object other);
 		~object(){}
+	protected:
 		int x,y,direct,state;
 		
 };//x，y指坐标位置，direct指方向，state指状态
@@ -25,21 +27,16 @@ class wall:public object{
 		wall(int dx,int dy):object(dx,dy){
 			state=-1;
 		}
-		void collapase(object &other);
+		void collapase(tank other);
+		void collapase(bullet other);
 };
-void wall::collapase(object &other){
-	if(other.state>=2)
-	{
-		tank_return(other);
-	}
-	else if(other.state==1)
-	{
-		other.state=0;
-		if(state==-1)
-		{
-			state=0;
-		}
-	}
+void wall::collapase(tank other){
+	tank_return(other);
+	return ;
+}
+void wall::collapase(bullet other){
+	if(state==-1) state=0;
+	other.state=0;
 	return ;
 }
 int main()
