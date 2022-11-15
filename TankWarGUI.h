@@ -13,14 +13,14 @@ public:
 	TankWarGUI(QWidget *parent = nullptr);
 	~TankWarGUI();
 
-	void paint_objects(object objs[],int n);
+	void paint_objects(object *objs[],int n);
 protected:
 	void paintEvent(QPaintEvent* event);
 
 private:
 
 	int n;
-	object objs[10010];
+	object *objs[10010];
 
 	Ui::TankWarGUIClass ui;
 public slots:

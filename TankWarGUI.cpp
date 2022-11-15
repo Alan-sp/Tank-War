@@ -1,3 +1,4 @@
+#pragma once
 #include "TankWarGUI.h"
 #include "qpainter.h"
 #include "object.cpp"
@@ -25,13 +26,13 @@ void TankWarGUI::paintEvent(QPaintEvent* event) {
 	painter.fillPath(qpa, Qt::black);
 	for (int i = 0; i < n; i++) {
 		QTransform trans;
-		trans.rotate(objs[i].get_direction() % 360, Qt::ZAxis);
-		QPixmap pic = st.image_resourse.get_image(objs[i].get_state()).transformed(trans);
-		painter.drawPixmap(objs[i].get_x()-pic.width()/2, objs[i].get_y()-pic.height()/2, pic.width(), pic.height(), pic);
+		trans.rotate((*objs[i]).get_direction() % 360, Qt::ZAxis);
+		QPixmap pic = st.image_resourse.get_image((*objs[i]).get_state()).transformed(trans);
+		painter.drawPixmap((*objs[i]).get_x()-pic.width()/2, (*objs[i]).get_y()-pic.height()/2, pic.width(), pic.height(), pic);
 	}
 }
 
-void TankWarGUI::paint_objects(object aobjs[],int an) {//paint all objects in objs
+void TankWarGUI::paint_objects(object *aobjs[],int an) {//paint all objects in objs
 	n = an;
 	for (int i = 0; i < n; i++)
 		objs[i] = aobjs[i];

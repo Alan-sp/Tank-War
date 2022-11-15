@@ -13,6 +13,7 @@ class object{
 			x=other.x,y=other.y,direct=other.direct,state=other.state;
 		}
 		bool collapase(object other) {}
+		//virtual void ticking();
 		~object(){}
 		int get_x() { return x; }
 		int get_y() { return y; }
