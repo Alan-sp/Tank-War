@@ -11,6 +11,6 @@ class statics {
 public:
 
 	static QApplication qapp;
-	static ImageResource image_resourse;
+	static image_resource image_resourse;
 	static TankWarGUI gui;
 };

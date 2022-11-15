@@ -14,10 +14,10 @@ class object{
 		}
 		bool collapase(object other) {}
 		~object(){}
-		int getX() { return x; }
-		int getY() { return y; }
-		int getDirection() { return direct; }
-		int getState() { return state; }
+		int get_x() { return x; }
+		int get_y() { return y; }
+		int get_direction() { return direct; }
+		int get_state() { return state; }
 	protected :
 		int x,y,direct,state;
 		

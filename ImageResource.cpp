@@ -1,6 +1,6 @@
 #include "ImageResource.h"
 
-bool ImageResource::addImageResource(int flag, std::string file) {//register pixmap for this flag
+bool image_resource::add_image_resource(int flag, std::string file) {//register pixmap for this flag
 	std::map <int, QPixmap>::iterator i;
 	i = imap.find(flag);
 	if (i != imap.end())return false;//If this flag already exist
@@ -10,7 +10,7 @@ bool ImageResource::addImageResource(int flag, std::string file) {//register pix
 	return true;
 }
 
-QPixmap ImageResource::getImage(int flag)//get pixmap by flag
+QPixmap image_resource::get_image(int flag)//get pixmap by flag
 {
 	std::map <int, QPixmap>::iterator i;
 	i = imap.find(flag);

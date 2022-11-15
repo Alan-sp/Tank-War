@@ -1,17 +1,17 @@
 #pragma once
 #include <map>
 #include <qpixmap.h>
-class ImageResource
+class image_resource
 {
 private:
 	std::map <int, QPixmap> imap;//QPixmap storage
 
 public:
 
-	ImageResource() {}
-	~ImageResource(){}
+	image_resource() {}
+	~image_resource(){}
 
-	bool addImageResource(int flag, std::string file);
-	QPixmap getImage(int flag);
+	bool add_image_resource(int flag, std::string file);
+	QPixmap get_image(int flag);
 
 };
