@@ -1,5 +1,6 @@
 #pragma once
 #include "object.cpp"
+#include <cmath>
 const double pi=acos(-1);
 class tank :public object {
 public:

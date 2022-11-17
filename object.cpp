@@ -1,3 +1,4 @@
+#pragma once
 class object{
 	public :
 		object() {
@@ -11,8 +12,8 @@ class object{
 		object (const object &other){
 			x=other.x,y=other.y,direct=other.direct,state=other.state;
 		}
-		bool collapase(object other) {}
-		//virtual void ticking();
+		virtual bool collapase(object other) = 0;
+		virtual void ticking() = 0;
 		~object(){}
 		int get_x() { return x; }
 		int get_y() { return y; }
