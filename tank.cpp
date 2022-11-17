@@ -1,31 +1,6 @@
 #pragma once
 #include "object.cpp"
 const double pi=acos(-1);
-class object{
-	public :
-		object() {
-			x=y=direct=0,state = -1;
-		}
-		object (double dx,double dy,double dir){
-			x=dx,y=dy;		
-			direct=dir;
-			state = 0;
-		}
-		object (const object &other){
-			x=other.x,y=other.y,direct=other.direct,state=other.state;
-		}
-		bool collapase(object other) {}
-		//virtual void ticking();
-		~object(){}
-		int get_x() { return x; }
-		int get_y() { return y; }
-		int get_direction() { return direct; }
-		int get_state() { return state; }
-	protected :
-		double x,y;
-		int state;
-		double direct;
-};
 class tank :public object {
 public:
 	double speed;
