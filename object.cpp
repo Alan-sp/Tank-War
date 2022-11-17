@@ -1,10 +1,9 @@
-#pragma once
 class object{
 	public :
 		object() {
 			x=y=direct=0,state = -1;
 		}
-		object (int dx,int dy,int dir){
+		object (double dx,double dy,double dir){
 			x=dx,y=dy;		
 			direct=dir;
 			state = 0;
@@ -20,6 +19,7 @@ class object{
 		int get_direction() { return direct; }
 		int get_state() { return state; }
 	protected :
-		int x,y,direct,state;
-		
+		double x,y;
+		int state;
+		double direct;
 };
