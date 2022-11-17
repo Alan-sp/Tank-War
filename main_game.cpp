@@ -10,16 +10,8 @@ main_game::main_game() {
 	bullet_num = 0;
 	wall_num = 0;
 
-	//————————————————————————————————————————————
-	//我想把这里写进对象里面
-	obj_pool[tank_num] = new tank(1, 1, 1);//这里应该是默认出生点，但目前啥也不知道；
-	tank_num++;
-	//就是以后，每个类的对象写构造函数的时候，就把自己加到对应的池子里
-	// 我这里写一个creat_tank就行了
-	//————————————————————————————————————————————
-
-
-	//绘制地图---------地图就是数组，数组里就是所有的wall的x，y和类型
+	
+	obj_pool[tank_num] = new tank(1, 1, 1);
 
 }
 
@@ -54,8 +46,6 @@ int main_game::keyboard_detection() {
 
 
 int main_game::flushed(main_game* game) {
-	//刷新状态的一个函数，
-	//消灭多余子弹、死亡坦克、坦克复活等等
 	for (int i = 0; i < game->tank_num; i++) {
 		game->obj_pool[i]->ticking();
 	}

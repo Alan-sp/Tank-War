@@ -1,3 +1,4 @@
+#include "object.cpp"
 class bullet:public object{
 	public:
 		double speed;

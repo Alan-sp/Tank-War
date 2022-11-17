@@ -5,8 +5,8 @@
 #include "qthread.h"
 #include <QtWidgets/QApplication>
 
-#include "bullet.cpp"
 #include "object.cpp"
+#include "bullet.cpp"
 #include "tank.cpp"
 #include "TankWarGUI.h"
 #include "statics.h"
@@ -28,7 +28,7 @@ int main()
     statics st;
     st.gui.show();
     
-    st.image_resourse.add_image_resource(0, "D:/q.jpg");
+    st.image_resourse.add_image_resource(2, "D:/q.jpg");
 
     QThread thd;
     MyThread mthd;
@@ -42,17 +42,10 @@ int main()
 
     st.qapp.exec();
 
-    //初始化
     main_game* new_game = new main_game;
-    while (new_game->game_mode) {
-	    //检测键盘输入并处理对象的值
+    /*while (new_game->game_mode) {
 	    new_game->flushed(new_game);
-	    //移动所有对象
-	    //new_game->crash(new_game);
-	    //检测并处理所有碰撞
-	    //new_game->move(new_game);
-	    //打印所有的对象
-    }
+    }*/
 
     return 0;
 }

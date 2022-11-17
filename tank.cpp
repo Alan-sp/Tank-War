@@ -6,11 +6,15 @@ class tank :public object {
 public:
 	double speed;
 	double wspeed;//弧度制 
-	tank(double dx, double dy, double dir) :object(dx, dy, dir), speed(1),wspeed(0.001) {};
+	tank(double dx, double dy, double dir) :object(dx, dy, dir), speed(1), wspeed(0.001) { state = 2; };
 	void rotate(int x);
 	void shoot();
 	void ticking();
+	bool collapse(object const & other);
 };
+bool tank::collapse(object const & other) {
+	return true;
+}
 void tank::ticking()//按右键，dir>0,左键，dir<0 
 {
 	double dx,dy;
