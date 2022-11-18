@@ -2,7 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_TankWarGUI.h"
-#include "object.cpp"
+#include "object.h"
 
 class TankWarGUI : public QMainWindow
 {

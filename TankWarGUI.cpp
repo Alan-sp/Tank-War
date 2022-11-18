@@ -1,7 +1,7 @@
 #pragma once
 #include "TankWarGUI.h"
 #include "qpainter.h"
-#include "object.cpp"
+#include "object.h"
 #include "statics.h"
 #include "qpainterpath.h"
 #include "qtransform.h"
@@ -27,7 +27,7 @@ void TankWarGUI::paintEvent(QPaintEvent* event) {
 	for (int i = 0; i < n; i++) {
 		QTransform trans;
 		trans.rotate((*objs[i]).get_direction() * 180 / 3.1415926, Qt::ZAxis);
-		QPixmap pic = st.image_resourse.get_image((*objs[i]).get_state()).transformed(trans);
+		QPixmap pic = st.resource_library.get_image((*objs[i]).get_state()).transformed(trans);
 		painter.drawPixmap((*objs[i]).get_x()-pic.width()/2, (*objs[i]).get_y()-pic.height()/2, pic.width(), pic.height(), pic);
 	}
 }

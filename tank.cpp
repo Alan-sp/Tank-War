@@ -1,5 +1,5 @@
 #pragma once
-#include "object.cpp"
+#include "object.h"
 #include <cmath>
 const double pi=acos(-1);
 class tank :public object {
@@ -10,10 +10,10 @@ public:
 	void rotate(int x);
 	void shoot();
 	void ticking();
-	bool collapse(object const & other);
+	void collapse(object const & other, collapse_result result);
 };
-bool tank::collapse(object const & other) {
-	return true;
+void tank::collapse(object const & other, collapse_result result) {
+	return;
 }
 void tank::ticking()//按右键，dir>0,左键，dir<0 
 {

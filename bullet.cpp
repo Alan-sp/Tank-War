@@ -1,4 +1,5 @@
-#include "object.cpp"
+#include "object.h"
+#include <cmath>
 class bullet:public object{
 	public:
 		double speed;

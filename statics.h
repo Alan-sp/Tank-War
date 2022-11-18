@@ -1,5 +1,5 @@
 #pragma once
-#include "ImageResource.h"
+#include "resource_lib.h"
 #include "TankWarGUI.h"
 //static variables
 /*usage:
@@ -11,6 +11,6 @@ class statics {
 public:
 
 	static QApplication qapp;
-	static image_resource image_resourse;
+	static resource_lib resource_library;
 	static TankWarGUI gui;
 };
