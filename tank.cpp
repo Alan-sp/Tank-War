@@ -10,9 +10,9 @@ public:
 	void rotate(int x);
 	void shoot();
 	void ticking();
-	void collapse(object const & other, collapse_result result);
+	void collapse(object * other, collapse_result result);
 };
-void tank::collapse(object const & other, collapse_result result) {
+void tank::collapse(object * other, collapse_result result) {
 	return;
 }
 void tank::ticking()//按右键，dir>0,左键，dir<0 

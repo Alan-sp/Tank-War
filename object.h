@@ -13,8 +13,8 @@ public:
 	object(const object& other) {
 		x = other.x, y = other.y, direct = other.direct, state = other.state;
 	}
-	collapse_result collapseWith(object const& other);
-	virtual void collapse(object const& other, collapse_result result) = 0;
+	collapse_result collapseWith(object & other);
+	virtual void collapse(object * other, collapse_result result) = 0;
 	virtual void ticking() = 0;
 	~object() {}
 	double get_x() { return x; }
@@ -25,4 +25,6 @@ protected:
 	double x, y;
 	int state;
 	double direct;
+private:
+	collapse_result collapseBetweenTwoType(object const& circle, plane_model a, plane_model b);
 };
