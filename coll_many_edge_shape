@@ -1,15 +1,36 @@
-//为了显得我不是很摸，先把多边形碰撞检测的非封装版up上来
 #include<bits/stdc++.h>
 using namespace std;
 const int M=250;
 struct node{//点类或向量类
 	double x,y;
 };
-struct Shape{//多边形类
-	node k[M];
-	int len;
+struct re_line{//直线类
+	node nd1,nd2;
+	double dis;
+	friend bool operator > (re_line x,re_line y){
+		return x.dis>y.dis;
+	}
 };
-Shape tst1,tst2,query_tst;//预判断多边形
+class Shape{//多边形类
+	public:
+		Shape(){
+			len=0;
+		}
+		Shape(node s[],int l){
+			for(int i=1;i<=l;i++)
+			{
+				k[i]=s[i];
+			}
+			len=l;
+		}
+//		~Shape();
+		friend node Q_core(Shape ts);
+		friend node Support(Shape ts1,Shape ts2,node fstd);
+	private:
+		node k[M];
+		int len;
+};
+priority_queue<re_line,vector<re_line>,greater<re_line>>rep;
 node wt1,wt2,wt3;//单纯形中的点
 double eps=1e-6;
 node Q_ori(node c1,node c2){//求垂直指向原点的方向向量
@@ -53,18 +74,30 @@ node Q_core(Shape ts){//求中心
 double num_rep1(node x,node y){//向量数量积
 	return x.x*y.x+x.y*y.y;
 }
-node Support(Shape ts,node fstd){//ts为待求点，fstd为标准方向向量
-	node ans=ts.k[1];
-	double fstd_len=sqrt(num_rep1(fstd,fstd)),nw=num_rep1(ts.k[1],fstd)/fstd_len;
-	for(int i=2;i<=ts.len;i++)
+node Support(Shape ts1,Shape ts2,node fstd){//ts为待求点，fstd为标准方向向量
+	node ans1=ts1.k[1],re_fstd,ans2=ts2.k[1];
+	re_fstd.x=-fstd.x;
+	re_fstd.y=-fstd.y;
+	double fstd_len=sqrt(num_rep1(fstd,fstd)),nw1=num_rep1(ts1.k[1],fstd)/fstd_len,nw2=num_rep1(ts2.k[1],re_fstd)/fstd_len;
+	for(int i=2;i<=ts1.len;i++)
 	{
-		if(num_rep1(ts.k[i],fstd)/fstd_len>nw)
+		if(num_rep1(ts1.k[i],fstd)/fstd_len>nw1)
 		{
-			nw=num_rep1(ts.k[i],fstd)/fstd_len;
-			ans=ts.k[i];
+			nw1=num_rep1(ts1.k[i],fstd)/fstd_len;
+			ans1=ts1.k[i];
 		}
 	}
-	return ans;
+	for(int i=2;i<=ts2.len;i++)
+	{
+		if(num_rep1(ts2.k[i],re_fstd)/fstd_len>nw2)
+		{
+			nw2=num_rep1(ts2.k[i],re_fstd)/fstd_len;
+			ans2=ts2.k[i];
+		}
+	}
+	ans1.x-=ans2.x;
+	ans1.y-=ans2.y;
+	return ans1;
 }
 double Q_len(node c1,node c2){//求两点间距离
 	return sqrt((c1.x-c2.x)*(c1.x-c2.x)+(c1.y-c2.y)*(c1.y-c2.y));
@@ -82,38 +115,11 @@ bool check(){//判断原点是否在三角形中
 	ret.y=0;
 	return fabs(Q_S(wt1,wt2,wt3)-Q_S(wt1,wt2,ret)-Q_S(wt1,wt3,ret)-Q_S(wt2,wt3,ret))<eps;
 }
-bool check2(node fstd,node nw){//判断是否退出循环
+bool check2(node fstd,node nw){//判断是否退出GJK循环
 	return fstd.x*(-nw.x)+fstd.y*(-nw.y)<0;
 }
-void First(){
-	scanf("%d",&tst1.len);
-	for(int i=1;i<=tst1.len;i++)
-	{
-		scanf("%lf%lf",&tst1.k[i].x,&tst1.k[i].y);
-	}
-	scanf("%d",&tst2.len);
-	for(int i=1;i<=tst2.len;i++)
-	{
-		scanf("%lf%lf",&tst2.k[i].x,&tst2.k[i].y);
-	}
-	node core1,core2;
-	core1=Q_core(tst1);
-	core2=Q_core(tst2);
-	core1.x-=core2.x;
-	core1.y-=core2.y;//core1成为初始方向向量
-	for(int i=1;i<=tst1.len;i++)
-	{
-		for(int j=1;j<=tst2.len;j++)
-		{
-			query_tst.k[++query_tst.len].x=tst1.k[i].x-tst2.k[j].x;
-			query_tst.k[query_tst.len].y=tst1.k[i].y-tst2.k[j].y;
-		}
-	}
-	wt1=Support(query_tst,core1);
-	core1.x=-core1.x;
-	core1.y=-core1.y;
-	wt2=Support(query_tst,core1);
-	return ;
+bool cmp(node nd1,node nd2){//两点是否相等
+	return (fabs(nd1.x-nd2.x)<=eps)&&(fabs(nd1.y-nd2.y)<=eps);
 }
 void usep(){
 	node ret;
@@ -126,13 +132,10 @@ void usep(){
 	else wt1=wt3;
 	return ;
 }
-bool GJK(){//判断是否碰撞以及找到单纯形
+bool GJK(Shape tst1,Shape tst2){//判断是否碰撞以及找到单纯形
 	while(1)
 	{
-		wt3=Support(query_tst,Q_ori(wt1,wt2));
-//		cout<<wt1.x<<" "<<wt1.y<<endl;
-//		cout<<wt2.x<<" "<<wt2.y<<endl;
-		cout<<wt3.x<<" "<<wt3.y<<endl;
+		wt3=Support(tst1,tst2,Q_ori(wt1,wt2));
 		if(check())
 		{
 			return true;
@@ -144,21 +147,62 @@ bool GJK(){//判断是否碰撞以及找到单纯形
 		usep();
 	}
 }
-//node EPA(){
-//}
-int main()
-{
-	First();
-	if(GJK())
+node EPA(Shape tst1,Shape tst2){
+	re_line nw_line;
+	node fstd,nw_nd,re;
+	re.x=0,re.y=0;
+	while(1)
 	{
-//		printf("%.2lf %.2lf\n",wt1.x,wt1.y);
-//		printf("%.2lf %.2lf\n",wt2.x,wt2.y);
-//		printf("%.2lf %.2lf\n",wt3.x,wt3.y);
-//		EPA();
+		nw_line=rep.top();
+		rep.pop();
+		fstd=Q_ori(nw_line.nd1,nw_line.nd2);
+		fstd.x=-fstd.x;
+		fstd.y=-fstd.y;
+		nw_nd=Support(tst1,tst2,fstd);
+		if(cmp(nw_nd,nw_line.nd1)||cmp(nw_nd,nw_line.nd2))
+		{
+			return fstd;
+		}
+		rep.push({nw_line.nd1,nw_nd,Q_len(re,nw_line.nd1,nw_nd)});
+		rep.push({nw_line.nd2,nw_nd,Q_len(re,nw_line.nd2,nw_nd)});
 	}
-	else
-	{
-		printf("NO COLL!\n");
-	}
-	return 0;
 }
+collapse_result Q_Cross_Array(node st1[],int lent1,node st2[],int lent2){
+	node core1,core2;
+	Shape tst1(st1,lent1);
+	Shape tst2(st2,lent2);
+	core1=Q_core(tst1);
+	core2=Q_core(tst2);
+	core1.x-=core2.x;
+	core1.y-=core2.y;//core1成为初始方向向量
+	wt1=Support(tst1,tst2,core1);
+	core1.x=-core1.x;
+	core1.y=-core1.y;
+	wt2=Support(tst1,tst2,core1);
+	node re;
+	re.x=0;
+	re.y=0;
+	collapse_result anst;
+	anst.isCollapse=GJK(tst1,tst2);
+	if(anst.isCollapse)
+	{
+		rep.push({wt1,wt2,Q_len(re,wt1,wt2)});
+		rep.push({wt1,wt3,Q_len(re,wt1,wt3)});
+		rep.push({wt3,wt2,Q_len(re,wt3,wt2)});
+		re=EPA(tst1,tst2);
+		anst.dx=re.x;
+		anst.dy=re.y;
+	}
+	return anst;
+}
+/*4
+0 2
+1 1
+1 4
+3 3
+4
+2 3
+3 4
+5 3
+4 1
+*/
