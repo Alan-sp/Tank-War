@@ -26,19 +26,13 @@ int main()
     statics st;
     st.gui.show();
     
-    double pi = 3.1415926;
-    wall obj1(5, 0, pi/4); bullet obj2(0,0,0,0);
-    for (int i = 0; i < 10; i++){
-	    obj2.ticking();
-	    printf("%.2f %.2f\n", obj2.get_x(),obj2.get_y());
-    }
-    collapse_result res{};
-    obj2.collapse(&obj1, res);
-    printf("-------%.2fPi-------\n",obj2.get_direction());
-    for (int i = 0; i < 10; i++) {
-	    obj2.ticking();
-	    printf("%.2f %.2f\n", obj2.get_x(), obj2.get_y());
-    }
+    //wall w(0, 0, 0); tank t(4, 4, 3.1415926 / 3);
+    //double tx[4] = { 2,2,-2,-2 }, ty[4] = { 2,-2,-2,2 };//4*4square
+    //plane_model wm(4); plane_model tm(4, tx, ty);
+    //st.resource_library.add_model_resource(1, wm);
+    //st.resource_library.add_model_resource(2, tm);
+    //collapse_result cr = t.collapseWith(w);
+    //printf("%s:%lf,%lf",cr.isCollapse?"Yes":"No",cr.dx,cr.dy);
 
     /*st.resource_library.add_image_resource(2, "D:/q.jpg");
 
@@ -50,12 +44,12 @@ int main()
     QObject::connect(&st.gui, SIGNAL(repaint_signal()), &st.gui, SLOT(repaint_slot()));
     QObject::connect(&mthd, SIGNAL(MyThreadTTRan()), &mthd, SLOT(ran()));
 
-    emit mthd.MyThreadTTRan();*/
+    emit mthd.MyThreadTTRan();
 
-    //st.qapp.exec();
+    st.qapp.exec();
 
     main_game* new_game = new main_game;
-    /*while (new_game->game_mode) {
+    while (new_game->game_mode) {
 	    new_game->flushed(new_game);
     }*/
 

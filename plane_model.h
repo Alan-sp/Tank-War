@@ -1,22 +1,24 @@
 #pragma once
 #include <cstddef>
+#include <cmath>
 
 struct collapse_result {
 	bool isCollapse;
-	float dx, dy;
+	double dx, dy;
 };
 
 class plane_model
 {
 private:
-	int type, r, n;
+	int type, n;
+	double r;
 	double* points_x, * points_y;
 public:
 	plane_model() {
 		this->type = r = n = 0;
 		points_x = points_y = NULL;
 	}
-	plane_model(int r) {
+	plane_model(double r) {
 		type = 1, this->r = r, n = 0;
 		points_x = points_y = NULL;
 	}
