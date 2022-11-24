@@ -17,6 +17,13 @@ class Shape{//多边形类
 			len=0;
 		}
 		Shape(node s[],int l){
+			if(l==-1)
+			{
+				len=l;
+				k[0]=s[0];
+				k[1].x=s[1].x;
+				return ;
+			}
 			for(int i=1;i<=l;i++)
 			{
 				k[i]=s[i];
@@ -59,6 +66,7 @@ node Q_ori(node c1,node c2){//求垂直指向原点的方向向量
 	return nw;
 }
 node Q_core(Shape ts){//求中心
+	if(ts.len==-1) return ts.k[0];
 	node nw;
 	nw.x=0;
 	nw.y=0;
@@ -79,20 +87,38 @@ node Support(Shape ts1,Shape ts2,node fstd){//ts为待求点，fstd为标准方�
 	re_fstd.x=-fstd.x;
 	re_fstd.y=-fstd.y;
 	double fstd_len=sqrt(num_rep1(fstd,fstd)),nw1=num_rep1(ts1.k[1],fstd)/fstd_len,nw2=num_rep1(ts2.k[1],re_fstd)/fstd_len;
-	for(int i=2;i<=ts1.len;i++)
+	if(ts1.len==-1)
 	{
-		if(num_rep1(ts1.k[i],fstd)/fstd_len>nw1)
+		double sx=fstd.y/fstd_len,cx=fstd.x/fstd_len;
+		ans1.x=ts1.k[0].x+ts1.k[1].x*cx;
+		ans1.y=ts1.k[0].y+ts1.k[1].x*sx;
+	}
+	else
+	{
+		for(int i=2;i<=ts1.len;i++)
 		{
-			nw1=num_rep1(ts1.k[i],fstd)/fstd_len;
-			ans1=ts1.k[i];
+			if(num_rep1(ts1.k[i],fstd)/fstd_len>nw1)
+			{
+				nw1=num_rep1(ts1.k[i],fstd)/fstd_len;
+				ans1=ts1.k[i];
+			}
 		}
 	}
-	for(int i=2;i<=ts2.len;i++)
+	if(ts2.len==-1)
 	{
-		if(num_rep1(ts2.k[i],re_fstd)/fstd_len>nw2)
+		double sx=re_fstd.y/fstd_len,cx=re_fstd.x/fstd_len;
+		ans2.x=ts2.k[0].x+ts2.k[1].x*cx;
+		ans2.y=ts2.k[0].y+ts2.k[1].x*sx;
+	}
+	else
+	{
+		for(int i=2;i<=ts2.len;i++)
 		{
-			nw2=num_rep1(ts2.k[i],re_fstd)/fstd_len;
-			ans2=ts2.k[i];
+			if(num_rep1(ts2.k[i],re_fstd)/fstd_len>nw2)
+			{
+				nw2=num_rep1(ts2.k[i],re_fstd)/fstd_len;
+				ans2=ts2.k[i];
+			}
 		}
 	}
 	ans1.x-=ans2.x;
@@ -132,10 +158,10 @@ void usep(){
 	else wt1=wt3;
 	return ;
 }
-bool GJK(Shape tst1,Shape tst2){//判断是否碰撞以及找到单纯形
+bool GJK(Shape ts1,Shape ts2){//判断是否碰撞以及找到单纯形
 	while(1)
 	{
-		wt3=Support(tst1,tst2,Q_ori(wt1,wt2));
+		wt3=Support(ts1,ts2,Q_ori(wt1,wt2));
 		if(check())
 		{
 			return true;
@@ -147,7 +173,7 @@ bool GJK(Shape tst1,Shape tst2){//判断是否碰撞以及找到单纯形
 		usep();
 	}
 }
-node EPA(Shape tst1,Shape tst2){
+node EPA(Shape ts1,Shape ts2){
 	re_line nw_line;
 	node fstd,nw_nd,re;
 	re.x=0,re.y=0;
@@ -158,7 +184,7 @@ node EPA(Shape tst1,Shape tst2){
 		fstd=Q_ori(nw_line.nd1,nw_line.nd2);
 		fstd.x=-fstd.x;
 		fstd.y=-fstd.y;
-		nw_nd=Support(tst1,tst2,fstd);
+		nw_nd=Support(ts1,ts2,fstd);
 		if(cmp(nw_nd,nw_line.nd1)||cmp(nw_nd,nw_line.nd2))
 		{
 			return fstd;
@@ -195,14 +221,3 @@ collapse_result Q_Cross_Array(node st1[],int lent1,node st2[],int lent2){
 	}
 	return anst;
 }
-/*4
-0 2
-1 1
-1 4
-3 3
-4
-2 3
-3 4
-5 3
-4 1
-*/
