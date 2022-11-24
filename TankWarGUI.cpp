@@ -26,7 +26,7 @@ void TankWarGUI::paintEvent(QPaintEvent* event) {
 	painter.fillPath(qpa, Qt::black);
 	for (int i = 0; i < n; i++) {
 		QTransform trans;
-		trans.rotate(-(*objs[i]).get_direction() * 180 / 3.1415926, Qt::ZAxis);
+		trans.rotate((*objs[i]).get_direction() * 180 / 3.1415926+90, Qt::ZAxis);
 		QPixmap pic = st.resource_library.get_image((*objs[i]).get_state()).transformed(trans);
 		painter.drawPixmap((*objs[i]).get_x()-pic.width()/2, (*objs[i]).get_y()-pic.height()/2, pic.width(), pic.height(), pic);
 	}

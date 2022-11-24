@@ -25,6 +25,4 @@ protected:
 	double x, y;
 	int state;
 	double direct;
-private:
-	collapse_result collapseBetweenTwoType(object const& circle, plane_model a, plane_model b);
 };
