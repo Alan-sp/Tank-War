@@ -93,6 +93,7 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="main_game.cpp" />
     <ClCompile Include="PolygonUtil.cpp" />
+    <ClCompile Include="rolling_wall.cpp" />
     <ClCompile Include="wall.cpp" />
     <QtUic Include="TankWarGUI.ui" />
     <QtMoc Include="TankWarGUI.h" />
@@ -114,6 +115,7 @@
     <QtMoc Include="MyThread.h" />
     <ClInclude Include="main_game.h" />
     <ClInclude Include="plane_model.h" />
+    <ClInclude Include="rolling_wall.h" />
     <ClInclude Include="statics.h" />
   </ItemGroup>
   <ItemGroup>

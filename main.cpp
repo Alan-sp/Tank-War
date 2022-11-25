@@ -19,7 +19,7 @@ int arg0 = 1;
 int& arg1 = arg0;
 char **arg2;
 
-resource_lib statics::resource_library;
+resource_lib statics::resource_library=resource_lib();
 QApplication statics::qapp(arg1,arg2);
 TankWarGUI statics::gui;
 

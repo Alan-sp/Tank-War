@@ -13,15 +13,13 @@ public:
 	TankWarGUI(QWidget *parent = nullptr);
 	~TankWarGUI();
 
-	void paint_objects(object *objs[],int n);
+	void paint_objects(std::list<object*> listz);
 protected:
 	void paintEvent(QPaintEvent* event);
 
 private:
-
-	int n;
-	object *objs[10010];
-
+	std::list<object*> objs;
+	bool painting;
 	Ui::TankWarGUIClass ui;
 public slots:
 	void repaint_slot();

@@ -1,4 +1,6 @@
 #include <queue>
+#include <ctime>
+#include <random>
 #include "plane_model.h"
 
 namespace PolygonUtil{
@@ -161,6 +163,7 @@ namespace PolygonUtil{
 		return;
 	}
 	bool GJK(Shape ts1, Shape ts2) {//判断是否碰撞以及找到单纯形
+		long time = clock();
 		while (1)
 		{
 			wt3 = Support(ts1, ts2, Q_ori(wt1, wt2));
@@ -173,12 +176,14 @@ namespace PolygonUtil{
 				return false;
 			}
 			usep();
+			if (clock() - time > 5)return false;
 		}
 	}
 	node EPA(Shape ts1, Shape ts2) {
 		re_line nw_line;
 		node fstd, nw_nd, re;
 		re.x = 0, re.y = 0;
+		long time = clock();
 		while (1)
 		{
 			nw_line = rep.top();
@@ -193,10 +198,14 @@ namespace PolygonUtil{
 			}
 			rep.push({ nw_line.nd1,nw_nd,Q_len(re,nw_line.nd1,nw_nd) });
 			rep.push({ nw_line.nd2,nw_nd,Q_len(re,nw_line.nd2,nw_nd) });
+			if (clock() - time > 5) {
+				re.x = rand() % 10, re.y = rand() % 10;
+				return re;
+			}
 		}
 	}
 	collapse_result Q_Cross_Array(node st1[], int lent1, node st2[], int lent2) {
-		//rep = std::priority_queue < re_line, std::vector<re_line>, std::greater<re_line >>();
+		rep = {};
 		node core1, core2;
 		Shape tst1(st1, lent1);
 		Shape tst2(st2, lent2);
@@ -222,7 +231,7 @@ namespace PolygonUtil{
 			anst.dx = re.x;
 			anst.dy = re.y;
 		}
-		while (!rep.empty())rep.pop();
+		//while (!rep.empty())rep.pop();
 		return anst;
 	}
 }

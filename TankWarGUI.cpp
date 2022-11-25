@@ -10,7 +10,7 @@ TankWarGUI::TankWarGUI(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
-    n = 0;
+    painting = false;
 }
 
 TankWarGUI::~TankWarGUI()
@@ -22,20 +22,22 @@ void TankWarGUI::paintEvent(QPaintEvent* event) {
 	statics st;
 
 	QPainterPath qpa;
-	qpa.addRect(0, 0, 1200, 800);
+	qpa.addRect(0, 0, 1200, 900);
 	painter.fillPath(qpa, Qt::black);
-	for (int i = 0; i < n; i++) {
+	painting = true;
+	for (auto i = objs.begin(); i != objs.end(); i++){
 		QTransform trans;
-		trans.rotate((*objs[i]).get_direction() * 180 / 3.1415926+90, Qt::ZAxis);
-		QPixmap pic = st.resource_library.get_image((*objs[i]).get_state()).transformed(trans);
-		painter.drawPixmap((*objs[i]).get_x()-pic.width()/2, (*objs[i]).get_y()-pic.height()/2, pic.width(), pic.height(), pic);
+		trans.rotate((**i).get_direction() * 180 / 3.1415926+90, Qt::ZAxis);
+		QPixmap pic = st.resource_library.get_image((**i).get_state()).transformed(trans);
+		painter.drawPixmap((**i).get_x()-pic.width()/2, (**i).get_y()-pic.height()/2, pic.width(), pic.height(), pic);
 	}
+	painting = false;
 }
 
-void TankWarGUI::paint_objects(object *aobjs[],int an) {//paint all objects in objs
-	n = an;
-	for (int i = 0; i < n; i++)
-		objs[i] = aobjs[i];
+void TankWarGUI::paint_objects(std::list<object*> listz) {//paint all objects in objs
+	while (painting);
+	this->objs.clear();
+	this->objs = listz;
 	emit repaint_signal();
 }
 
