@@ -36,6 +36,7 @@ namespace PolygonUtil{
 		}
 		//		~Shape();
 		friend node Q_core(Shape ts);
+		friend node Q_core_sec(Shape ts);
 		friend node Support(Shape ts1, Shape ts2, node fstd);
 	private:
 		node k[M];
@@ -82,6 +83,16 @@ namespace PolygonUtil{
 		nw.x /= ts.len;
 		nw.y /= ts.len;
 		return nw;
+	}
+	node Q_core_sec(Shape ts){
+		node nw;
+		if(ts.len==-1)
+		{
+			nw=ts.k[0];
+			nw.x+=ts.k[1].x;
+			return nw;
+		}
+		return ts.k[1];
 	}
 	double num_rep1(node x, node y) {//向量数量积
 		return x.x * y.x + x.y * y.y;
@@ -211,6 +222,10 @@ namespace PolygonUtil{
 		Shape tst2(st2, lent2);
 		core1 = Q_core(tst1);
 		core2 = Q_core(tst2);
+		if(cmp(core1,core2))
+		{
+			core2 = Q_core_sec(tst2);
+		}
 		core1.x -= core2.x;
 		core1.y -= core2.y;//core1成为初始方向向量
 		wt1 = Support(tst1, tst2, core1);
