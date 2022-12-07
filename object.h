@@ -25,4 +25,5 @@ protected:
 	double x, y;
 	int state;
 	double direct;
+	int hp;
 };
