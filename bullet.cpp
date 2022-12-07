@@ -1,31 +1,47 @@
+#pragma once
 #include "object.h"
-#include <cstdio>
 #include <cmath>
-class bullet:public object{
-	public:
-		double speed,real_speed;
-		int from;
-		int hitpoint;
-		bullet(double dx, double dy, double dir, int num) :object(dx, dy, dir), speed(5), from(num) { state = 3, hitpoint = -1, real_speed = speed; }
-		void ticking();
-		void collapse(object * other, collapse_result result);
-		~bullet() {};
+const double pi=acos(-1);
+class tank :public object {
+public:
+	double speed;
+	double wspeed;//弧度制 
+	buff my_buff;
+	int name;
+	tank(double dx, double dy, double dir,int m) :object(dx, dy, dir), speed(1), wspeed(0.001) { state = 2; my_buff.buff_state=-1;name=m};
+	void rotate(int x);
+	void shoot();
+	void ticking();
+	void get_buff(buff x);
+	void create_bullet();
+	void collapse(object * other, collapse_result result);
 };
-void bullet::ticking(){
-	x += real_speed * cos(direct),
-	y += real_speed * sin(direct);
-	real_speed += (speed - real_speed) * 0.01;
+void tank::create_bullet(){
+	bullet *nw=new bullet(x,y,dir,name);
+	if(my_buff.buff_state!=0)	my_buff.buff_cnt++;
+	nw.my_buff=my_buff;
+	Q_buff(nw);
+	if(my_buff.buff_cnt==20)	my_buff.buff_cnt=my_buff.buff_state=0;
+	return ;
 }
-void bullet::collapse(object * other, collapse_result result){
-	//if ((*other).get_state() == 1) {
-		x += result.dx, y += result.dy, hitpoint--;
-		double temp = sqrt(result.dx * result.dx + result.dy * result.dy);
-		if (temp > real_speed)real_speed = temp - real_speed;
-		double dir3ct = atan2(result.dy, result.dx);
-		if (abs(direct - dir3ct) < 3.1415926 / 2)
-			direct = 2 * (3.1415926 + dir3ct) - direct+ 3.1415926;
-		else
-			direct = 2 * dir3ct - direct+ 3.1415926;
-	//}
-	if (hitpoint==0 || x < 0 || x>1200 || y < 0 || y>800)state = -1;
+void tank::get_buff(buff x){
+	my_buff=x;
+	return ;
+}
+void tank::collapse(object * other, collapse_result result) {
+	return;
+}
+void tank::ticking()//按右键，dir>0,左键，dir<0 
+{
+	double dx,dy;
+	x+=speed*(sin(direct));
+	y+=speed*(cos(direct));
+}
+void tank::rotate(int x){//提供左转<0 右转>0 
+	if(x>0) direct+=wspeed;
+	if(x<0) direct-=wspeed; 
+}
+void tank::shoot()
+{
+	create_bullet();
 }
