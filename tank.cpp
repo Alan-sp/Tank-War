@@ -1,6 +1,8 @@
 #pragma once
 #include "object.h"
 #include <cmath>
+#include "bullet.cpp"
+#include "buff.cpp"
 const double pi=acos(-1);
 class tank :public object {
 public:

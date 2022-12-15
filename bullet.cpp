@@ -1,10 +1,12 @@
+#pragma once
 #include "object.h"
 #include <cstdio>
 #include <cmath>
+#include "buff.cpp"
 class bullet:public object{
 	public:
 		friend class buff;
-		friend Q_buff(bullet bt);
+		friend void Q_buff(bullet bt);
 		double speed,real_speed;
 		int from;
 		int hitpoint;
