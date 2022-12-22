@@ -3,15 +3,25 @@
 #include "qpainter.h"
 #include "object.h"
 #include "statics.h"
+#include "ui_TankWarGUI.h"
 #include "qpainterpath.h"
 #include "qtransform.h"
 #include <iostream>
 
-TankWarGUI::TankWarGUI(QWidget *parent)
-    : QMainWindow(parent)
+TankWarGUI::TankWarGUI(QWidget* parent)
+	: QMainWindow(parent)
 {
-    ui.setupUi(this);
-    painting = false;
+	ui.setupUi(this);
+	painting = false;
+	statics st;
+	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), &st.gui, SLOT(startGame()));
+}
+
+void TankWarGUI::startGame() {
+	ui.pushButtonStart->setVisible(false);
+	ui.pushButtonSetting->setVisible(false);
+	statics st;
+	emit st.mthd.MyThreadTTRan();
 }
 
 TankWarGUI::~TankWarGUI()
@@ -35,10 +45,9 @@ void TankWarGUI::paintEvent(QPaintEvent* event) {
 }
 
 void TankWarGUI::paint_objects(std::list<object*> listz) {//paint all objects in objs
-	while (painting);
 	this->objs.clear();
 	this->objs = listz;
-	emit repaint_signal();
+	if(!painting)emit repaint_signal();
 }
 
 void TankWarGUI::repaint_slot() {

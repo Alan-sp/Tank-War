@@ -3,6 +3,7 @@
 #include <cmath>
 #include "bullet.cpp"
 #include <iostream>
+#include "boom_anime.h"
 #include "statics.h"
 const double pi=acos(-1);
 class tank :public object {
@@ -10,13 +11,12 @@ public:
 	double speed;
 	double wspeed;//弧度制 
 	int name,tw,ta,ts,td,tshoot,cd_time;
-	tank(double dx, double dy, double dir, int m,int tw,int ta,int ts,int td,int tshoot) :object(dx, dy, dir), speed(1), wspeed(0.01) {
+	tank(double dx, double dy, double dir, int m,int tw,int ta,int ts,int td,int tshoot) :object(dx, dy, dir), speed(4), wspeed(0.05) {
 		state = 20+m; name = m;
 		this->tw = tw, this->ta = ta, this->ts = ts, this->td = td;
 		this->tshoot = tshoot;
 		hitpoint = 5 ,cd_time=100;
 	};
-	void shoot();
 	void ticking();
 	void collapse(object * other, collapse_result result);
 };
@@ -45,5 +45,9 @@ void tank::ticking()
 		st.maingame.add_object(new bullet(x + 50*cos(direct), y + 50*sin(direct), direct, name));
 		cd_time = 100;
 	}
-	if (hitpoint < 0)state = -1;
+	if (hitpoint < 0)
+	{
+		state = -1;
+		st.maingame.add_object(new boom_anime(x, y));
+	}
 }

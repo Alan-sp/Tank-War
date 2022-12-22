@@ -6,6 +6,11 @@ struct collapse_result {
 	bool isCollapse;
 	double dx, dy;
 
+	void normalize() {
+		if (dx > 10)dx = 10; if (dx < -10)dx = -10;
+		if (dy > 10)dy = 10; if (dy < -10)dy = -10;
+	}
+
 	collapse_result opposide() {
 		collapse_result ret;
 		ret.isCollapse = isCollapse, ret.dx = -dx, ret.dy = -dy;

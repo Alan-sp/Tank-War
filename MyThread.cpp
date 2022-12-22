@@ -9,7 +9,6 @@
 #include <iostream>
 void MyThread::ran() {
 
-	sleep(2);
 	srand(time(NULL));
 
 	statics st;
@@ -34,6 +33,7 @@ void MyThread::ran() {
 			auto j = i;
 			for (j++;j!=st.maingame.obj_pool.end(); j++) {
 				collapse_result res = (*i)->collapseWith(**j);
+				res.normalize();
 				if (res.isCollapse) {
 					(*i)->collapse(*j, res.opposide());
 					(*j)->collapse(*i, res);

@@ -23,6 +23,7 @@ private:
 	Ui::TankWarGUIClass ui;
 public slots:
 	void repaint_slot();
+	void startGame();
 signals:
 	void repaint_signal();
 };

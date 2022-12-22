@@ -4,6 +4,7 @@
 #include <QtConcurrent>
 #include <qthread.h>
 #include <QtWidgets/QApplication>
+#include <string>
 
 #include "statics.h"
 #include "object.h"
@@ -24,6 +25,7 @@ resource_lib statics::resource_library=resource_lib();
 QApplication statics::qapp(arg1,arg2);
 TankWarGUI statics::gui;
 main_game statics::maingame;
+MyThread statics::mthd;
 
 int main()
 {
@@ -57,9 +59,6 @@ int main()
 	st.maingame.obj_pool.push_back(new wall(700, 700, 5));
 	st.maingame.obj_pool.push_back(new rolling_wall(1000, 200, 10, 0.01));
 
-	for(int i=0;i<10;i++)
-	st.maingame.obj_pool.push_back(new bullet(500, 500, i, 1));
-
 	st.maingame.obj_pool.push_back(new tank(100, 100, 0, 1, 87, 65, 83, 68, 81));
 	st.maingame.obj_pool.push_back(new tank(500, 200, 0, 2, 38, 37, 40, 39, 96));
 	st.maingame.obj_pool.push_back(new tank(200, 500, 0, 3, 73, 74, 75, 76, 79));
@@ -77,15 +76,19 @@ int main()
 	st.resource_library.add_image_resource(22, "D:/Resforgame/tank2.png");
 	st.resource_library.add_image_resource(23, "D:/Resforgame/tank3.png");
 	st.resource_library.add_image_resource(3, "D:/Resforgame/b.jpg");
+	for(int i=1;i<20;i++){
+		char str[2010];
+		snprintf(str, 2000, "D:/Resforgame//boom/bang%d.png", i);
+		st.resource_library.add_image_resource(100 + i, str);
+	}
 
 	QThread thd;
-	MyThread mthd;
 	//mthd.ran();
-	mthd.moveToThread(&thd);
+	st.mthd.moveToThread(&thd);
 	thd.start();
 	QObject::connect(&st.gui, SIGNAL(repaint_signal()), &st.gui, SLOT(repaint_slot()));
-	QObject::connect(&mthd, SIGNAL(MyThreadTTRan()), &mthd, SLOT(ran()));
-	emit mthd.MyThreadTTRan();
+	QObject::connect(&st.mthd, SIGNAL(MyThreadTTRan()), &st.mthd, SLOT(ran()));
+	//emit mthd.MyThreadTTRan();
 
 	st.qapp.exec();
 
