@@ -21,7 +21,7 @@ collapse_result object::collapseWith(object & other)
 			ret.dx = (x - other.x) * (a.get_r() + b.get_r() - dist) / dist,
 			ret.dy = (y - other.y) * (a.get_r() + b.get_r() - dist) / dist;
 		}
-		return -ret;
+		return ret.opposide();
 	}
 	if (dist > a.get_r() + b.get_r())return ret;
 	else if (a.get_type() == 1 && b.get_type() == 2) {
@@ -64,7 +64,7 @@ collapse_result object::collapseWith(object & other)
 		return ret;
 	}
 	else {
-		std::cout << "plane_model:Unexpected type\n";
+		std::cout << "Unexpected type of plane_model:" << a.get_type() << " and " << b.get_type() << std::endl;
 		return ret;
 	}
 }
