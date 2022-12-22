@@ -14,7 +14,7 @@ public:
 		state = 20+m; name = m;
 		this->tw = tw, this->ta = ta, this->ts = ts, this->td = td;
 		this->tshoot = tshoot;
-		hitpoint = 5;
+		hitpoint = 5 ,cd_time=100;
 	};
 	void shoot();
 	void ticking();
@@ -42,7 +42,7 @@ void tank::ticking()
 		direct += wspeed;
 	if (st.maingame.down[tshoot] && cd_time == 0)
 	{
-		st.maingame.add_object(new bullet(x, y, direct, name));
+		st.maingame.add_object(new bullet(x + 50*cos(direct), y + 50*sin(direct), direct, name));
 		cd_time = 100;
 	}
 	if (hitpoint < 0)state = -1;

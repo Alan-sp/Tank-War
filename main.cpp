@@ -60,8 +60,9 @@ int main()
 	for(int i=0;i<10;i++)
 	st.maingame.obj_pool.push_back(new bullet(500, 500, i, 1));
 
-	st.maingame.obj_pool.push_back(new tank(100, 100, 0, 1, 87, 65, 83, 68, 32));
-	st.maingame.obj_pool.push_back(new tank(500, 200, 0, 2, 38, 37, 40, 39, 163));
+	st.maingame.obj_pool.push_back(new tank(100, 100, 0, 1, 87, 65, 83, 68, 81));
+	st.maingame.obj_pool.push_back(new tank(500, 200, 0, 2, 38, 37, 40, 39, 96));
+	st.maingame.obj_pool.push_back(new tank(200, 500, 0, 3, 73, 74, 75, 76, 79));
 
 	double tx[4] = { 32,32,-50,-50 }, ty[4] = { 32,-32,-32,32 };//Tank
 	double wx[4] = { 5,5,-5,-5 }, wy[4] = { 100,-100,-100,100 };
