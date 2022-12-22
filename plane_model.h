@@ -6,7 +6,7 @@ struct collapse_result {
 	bool isCollapse;
 	double dx, dy;
 
-	collapse_result operator-() {
+	collapse_result opposide() {
 		collapse_result ret;
 		ret.isCollapse = isCollapse, ret.dx = -dx, ret.dy = -dy;
 		return ret;
