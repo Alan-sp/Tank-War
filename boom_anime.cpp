@@ -1,12 +1,12 @@
 #include "boom_anime.h"
 
-void boom_anime::ticking()
+void boom_animation::ticking()
 {
 	time++;
 	if(time==2)
 		time=0,state++;
 }
 
-void boom_anime::collapse(object* other, collapse_result result)
+void boom_animation::collapse(object* other, collapse_result result)
 {
 }

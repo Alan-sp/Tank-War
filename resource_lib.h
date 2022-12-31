@@ -6,7 +6,7 @@ class resource_lib
 {
 private:
 	std::unordered_map <int, QPixmap> imap;//QPixmap storage
-	plane_model* mlist[10000];
+	plane_model mlist[10000];
 	//std::unordered_map <int, plane_model> mmap;//Model storage
 public:
 

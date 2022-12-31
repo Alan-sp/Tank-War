@@ -20,6 +20,7 @@ TankWarGUI::TankWarGUI(QWidget* parent)
 void TankWarGUI::startGame() {
 	ui.pushButtonStart->setVisible(false);
 	ui.pushButtonSetting->setVisible(false);
+	ui.pushButtonMapEditor->setVisible(false);
 	statics st;
 	emit st.mthd.MyThreadTTRan();
 }

@@ -48,6 +48,6 @@ void tank::ticking()
 	if (hitpoint < 0)
 	{
 		state = -1;
-		st.maingame.add_object(new boom_anime(x, y));
+		st.maingame.add_object(new boom_animation(x, y));
 	}
 }
