@@ -24,7 +24,7 @@ void FinishPanel::analysizeData()
 	ui.winnerImg->setPixmap(st.resource_library->get_image(20 + winner->name));
 	//0
 	char str[2010];
-	snprintf(str, 2000, "%s 发射了%d枚炮弹，其中%d枚命中", winner->strname, winner->shootcount,winner->hitcount);
+	snprintf(str, 2000, "%s 发射了%d枚炮弹，其中%d枚命中", winner->strname.c_str(), winner->shootcount, winner->hitcount);
 	ui.interestringLabel1->setText(str);
 }
 

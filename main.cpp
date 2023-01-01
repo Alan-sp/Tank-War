@@ -64,17 +64,21 @@ int main()
 
 	double tx[4] = { 32,32,-50,-50 }, ty[4] = { 32,-32,-32,32 };//Tank
 	double wx[4] = { 5,5,-5,-5 }, wy[4] = { 100,-100,-100,100 };
-	plane_model wm(4, wx, wy); plane_model tm(4, tx, ty); plane_model bm(5.0);
+	double bx[4] = { 20,20,-20,-20 }, by[4] = { 20,-20,-20,20 };
+	plane_model wm(4, wx, wy); plane_model tm(4, tx, ty);
+	plane_model bm(5.0); plane_model fm(4,bx,by);
 	st.resource_library->add_model_resource(1, wm);
 	st.resource_library->add_model_resource(3, bm);
 	st.resource_library->add_model_resource(21, tm);
 	st.resource_library->add_model_resource(22, tm);
 	st.resource_library->add_model_resource(23, tm);
+	st.resource_library->add_model_resource(4, fm);
 	st.resource_library->add_image_resource(1, "D:/Resforgame/w.jpg");
 	st.resource_library->add_image_resource(21, "D:/Resforgame/tank1.png");
 	st.resource_library->add_image_resource(22, "D:/Resforgame/tank2.png");
 	st.resource_library->add_image_resource(23, "D:/Resforgame/tank3.png");
 	st.resource_library->add_image_resource(3, "D:/Resforgame/b.jpg");
+	st.resource_library->add_image_resource(4, "D:/Resforgame/buff.png");
 	for(int i=1;i<20;i++){
 		char str[2010];
 		snprintf(str, 2000, "D:/Resforgame//boom/bang%d.png", i);
@@ -88,6 +92,7 @@ int main()
 	QObject::connect(st.gamegui, SIGNAL(repaint_signal()), st.gamegui, SLOT(repaint_slot()));
 	QObject::connect(st.mthd, SIGNAL(MyThreadTTRan()), st.mthd, SLOT(ran()));
 	QObject::connect(st.mthd, SIGNAL(MyThreadTTEnd()), st.mthd, SLOT(stoq()));
+
 	//emit mthd.MyThreadTTRan();
 
 	st.gamegui->show();

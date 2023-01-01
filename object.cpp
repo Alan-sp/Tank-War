@@ -12,7 +12,7 @@ collapse_result object::collapseWith(object & other)
 	statics st;
 	plane_model a = st.resource_library->get_model(state),b=st.resource_library->get_model(other.state);
 	collapse_result ret; ret.isCollapse = false, ret.dx = ret.dy = 0;
-	if (a.get_type() == 0 || b.get_type() == 0) {
+	if (a.get_type() == 0 || b.get_type() == 0 || other.get_state() == -1 || state == -1) {
 		return ret;
 	}
 	double dist = sqrt(_2(x - other.x) + _2(y - other.y));

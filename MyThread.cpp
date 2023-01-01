@@ -1,6 +1,3 @@
-#ifndef MYTHREAD_CPP
-#define MYTHREAD_CPP
-
 #include "statics.h"
 #include "MyThread.h"
 #include "TankWarGUI.h"
@@ -10,6 +7,11 @@
 #include "bullet.cpp"
 #include <ctime>
 #include <iostream>
+#include "buff.cpp"
+
+#ifndef MYTHREAD_CPP
+#define MYTHREAD_CPP
+
 void MyThread::ran() {
 
 	srand(time(NULL));
@@ -44,18 +46,24 @@ void MyThread::ran() {
 				}
 			}
 		}
+
+		if (rand() % 100 == 6)st.maingame->obj_pool.push_back(new buff());
+
 		st.maingame->keyboard_detection();
 		for (auto i = st.maingame->obj_pool.begin(); i != st.maingame->obj_pool.end();) {
-			(**i).ticking();
+			if((*i)!=NULL) (**i).ticking();
 			if ((*i)->get_state() == -1)
+			{
+				delete *i;
 				i = st.maingame->obj_pool.erase(i);
+			}
 			else
 				i++;
 		}
 		timeused = clock() - starttime;
 		if (st.maingame->tank_num < 2) {
 			for (auto i = st.maingame->obj_pool.begin(); i != st.maingame->obj_pool.end(); i++)
-				if ((*i)->get_state() > 20 && (*i)->get_state() < 30) {
+				if ((*i)->get_state() / 10 == 2) {
 					st.maingame->winner = *i;
 					break;
 				}
