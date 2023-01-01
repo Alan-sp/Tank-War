@@ -9,8 +9,6 @@
 main_game::main_game() {
         game_mode = 1;
         tank_num = 0;
-        bullet_num = 0;
-        wall_num = 0;
         winner = NULL;
 }
 
@@ -38,10 +36,9 @@ void main_game::init()
 	st.maingame->obj_pool.push_back(new wall(1100, 5, 3.1415926 / 2));
 	st.maingame->obj_pool.push_back(new wall(1100, 795, 3.1415926 / 2));
 
-	st.maingame->obj_pool.push_back(new tank(100, 100, 0, 1, 87, 65, 83, 68, 81, "WASDQ"));
-	st.maingame->obj_pool.push_back(new tank(500, 200, 0, 2, 38, 37, 40, 39, 96, "NUMPAD"));
-	st.maingame->obj_pool.push_back(new tank(200, 500, 0, 3, 73, 74, 75, 76, 79, "IJKLO"));
-	st.maingame->tank_num = 3;
+	st.maingame->obj_pool.push_back(new tank(100, 100, 0, 1, keybinds1[0], keybinds1[1], keybinds1[2], keybinds1[3], keybinds1[4], name1.toStdString()));
+	st.maingame->obj_pool.push_back(new tank(500, 200, 0, 2,keybinds2[0], keybinds2[1], keybinds2[2], keybinds2[3], keybinds2[4], name2.toStdString()));
+	st.maingame->tank_num = 2;
 }
 
 void main_game::load_map()

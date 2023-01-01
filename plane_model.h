@@ -10,8 +10,8 @@ struct collapse_result {
 	double dx, dy;
 
 	void normalize() {
-		if (dx > 10)dx = 10; if (dx < -10)dx = -10;
-		if (dy > 10)dy = 10; if (dy < -10)dy = -10;
+		if (dx > 10)dy = dy / dx * 10, dx = 10; if (dx < -10)dy = -dy / dx * 10, dx = -10;
+		if (dy > 10)dx = dx / dy * 10, dy = 10; if (dy < -10)dx = -dx / dy * 10, dy = -10;
 	}
 
 	collapse_result opposide() {

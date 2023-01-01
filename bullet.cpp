@@ -1,6 +1,8 @@
 #include "object.h"
 #include <cstdio>
 #include <cmath>
+#include "statics.h"
+#include "main_game.h"
 
 #ifndef BULLET_CPP
 #define BULLET_CPP
@@ -12,8 +14,11 @@ public:
 	int hitpoint;
 	int attack_id;
 	bool invisible;
-	bullet(double dx, double dy, double dir, void* num, int d_attack) :object(dx, dy, dir), speed(5), from(num) {
-		invisible = false, attack_id = d_attack, state = 3, hitpoint = 10, real_speed = speed;
+	bullet(double dx, double dy, double dir, void* num, int d_attack) :object(dx, dy, dir), from(num) {
+		invisible = false, attack_id = d_attack, state = 3;
+		statics st;
+		real_speed = speed = st.maingame->bulletSpeed;
+		hitpoint = st.maingame->bulletHP;
 	}
 	void ticking();
 	void collapse(object* other, collapse_result result);
@@ -24,6 +29,7 @@ void bullet::ticking() {
 	x += real_speed * cos(direct),
 		y += real_speed * sin(direct);
 	real_speed += (speed - real_speed) * 0.01;
+	if (hitpoint <= 0 || x < 0 || x>1200 || y < 0 || y>800)state = -1;
 }
 void bullet::collapse(object* other, collapse_result result) {
 	if ((*other).get_state() == 1&&!invisible) {
@@ -37,7 +43,6 @@ void bullet::collapse(object* other, collapse_result result) {
 			direct = 2 * dir3ct - direct + 3.1415926;
 	}
 	if ((*other).get_state() / 10 == 2) state = -1;
-	if (hitpoint == 0 || x < 0 || x>1200 || y < 0 || y>800)state = -1;
 }
 #endif // !BULLET_CPP
 

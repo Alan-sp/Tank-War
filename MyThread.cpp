@@ -47,7 +47,7 @@ void MyThread::ran() {
 			}
 		}
 
-		if (rand() % 20 == 6)st.maingame->add_object(new buff());
+		if (rand() % st.maingame->buffFrequence == 0 )st.maingame->add_object(new buff());
 
 		st.maingame->keyboard_detection();
 		for (auto i = st.maingame->obj_pool.begin(); i != st.maingame->obj_pool.end();) {

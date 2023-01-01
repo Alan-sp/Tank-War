@@ -13,19 +13,21 @@ class tank :public object {
 public:
 	double speed;
 	double wspeed;//弧度制 
-	int name, tw, ta, ts, td, tshoot, cd_time;
+	int name, tw, ta, ts, td, tshoot, cd_time,currentcd;
 	long shootcount, hitcount;
 	std::string strname;
 	int attack_id;
 	int buff_state;
-	tank(double dx, double dy, double dir, int m, int tw, int ta, int ts, int td, int tshoot, std::string strname) :object(dx, dy, dir), speed(4), wspeed(0.05) {
+	tank(double dx, double dy, double dir, int m, int tw, int ta, int ts, int td, int tshoot, std::string strname) :object(dx, dy, dir) {
 		state = 20 + m; name = m;
+		statics st;
+		speed = st.maingame->tankSpeed, wspeed = 0.05;
 		this->tw = tw, this->ta = ta, this->ts = ts, this->td = td;
 		this->tshoot = tshoot;
-		hitpoint = 5, cd_time = 100;
+		hitpoint = st.maingame->tankHP, currentcd = cd_time = st.maingame->tankCD;
 		shootcount = hitcount = 0;
 		this->strname = strname;
-		attack_id = 1,buff_state = 0;
+		attack_id = st.maingame->bulletDamage,buff_state = 0;
 	};
 	void ticking();
 	void collapse(object* other, collapse_result result);
@@ -40,7 +42,7 @@ void tank::Q_buff() {
 	}
 	if (buff_state & 2)
 	{
-		test_bullet->attack_id = 2;
+		test_bullet->attack_id = st.maingame->buffBulletDamage;
 	}
 	if (buff_state & 4)
 	{
@@ -74,7 +76,7 @@ void tank::ticking()
 {
 	statics st;
 	double dx, dy;
-	if (cd_time > 0)cd_time--;
+	if (currentcd > 0)currentcd--;
 	if (st.maingame->down[tw])
 		x += speed * (cos(direct)),
 		y += speed * (sin(direct));
@@ -85,14 +87,14 @@ void tank::ticking()
 		direct -= wspeed;
 	if (st.maingame->down[td])
 		direct += wspeed;
-	if (st.maingame->down[tshoot] && cd_time == 0)
+	if (st.maingame->down[tshoot] && currentcd == 0)
 	{
 		if(buff_state)
 			Q_buff();
 		else
 			st.maingame->add_object(new bullet(x + 50 * cos(direct), y + 50 * sin(direct), direct, this,1));
 		
-		cd_time = 100, shootcount++;
+		currentcd = cd_time, shootcount++;
 	}
 	if (hitpoint <= 0)
 	{

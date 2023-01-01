@@ -8,6 +8,7 @@
 
 class GameScene;
 class FinishPanel;
+class SettingsPage;
 
 class TankWarGUI : public QMainWindow
 {
@@ -24,11 +25,13 @@ public:
 private:
 	GameScene* gamescene;
 	FinishPanel* finishpanel;
+	SettingsPage* settingpage;
 	Ui::TankWarGUIClass ui;
 public slots:
 	void repaint_slot();
 	void startGame();
 	void endGame();
+	void openSettings();
 signals:
 	void repaint_signal();
 	void game_is_end();
