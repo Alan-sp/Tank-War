@@ -29,6 +29,7 @@ void TankWarGUI::startGame() {
 	ui.pushButtonSetting->hide();
 	ui.pushButtonMapEditor->hide();
 	statics st;
+	st.maingame->init();
 	emit st.mthd->MyThreadTTRan();
 	gamescene->show();
 }
@@ -39,6 +40,7 @@ void TankWarGUI::endGame() {
 	gamescene->hide();
 	finishpanel->analysizeData();
 	finishpanel->show();
+	st.maingame->clear_pool();
 }
 
 TankWarGUI::~TankWarGUI()

@@ -22,7 +22,7 @@ public:
 		state = 20 + m; name = m;
 		this->tw = tw, this->ta = ta, this->ts = ts, this->td = td;
 		this->tshoot = tshoot;
-		hitpoint = 1, cd_time = 100;
+		hitpoint = 5, cd_time = 100;
 		shootcount = hitcount = 0;
 		this->strname = strname;
 		attack_id = 1,buff_state = 0;
@@ -38,16 +38,15 @@ void tank::Q_buff() {
 	{
 		test_bullet->speed *= 2;
 	}
-	else if (buff_state & 2)
+	if (buff_state & 2)
 	{
-		test_bullet->attack_id += 1;
+		test_bullet->attack_id = 2;
 	}
-	else if (buff_state & 4)
+	if (buff_state & 4)
 	{
 		test_bullet->invisible = true;
 	}
 	st.maingame->add_object(test_bullet);
-	shootcount++;
 	if (buff_state & 8)
 	{
 		bullet* up = new bullet(*test_bullet);
@@ -62,13 +61,13 @@ void tank::Q_buff() {
 	return;
 }
 void tank::collapse(object* other, collapse_result result) {
-	x += result.dx, y += result.dy;
+	if(other->get_state()<50)x += result.dx, y += result.dy;
 	if (other->get_state() == 3)
 	{
 		bullet* bulletptr = static_cast<bullet*>(other);
 		tank* murder = static_cast<tank*>(bulletptr->from);
 		murder->hitcount++;
-		hitpoint--;
+		hitpoint-=bulletptr->attack_id;
 	}
 }
 void tank::ticking()

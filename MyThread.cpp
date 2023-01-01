@@ -39,19 +39,19 @@ void MyThread::ran() {
 			auto j = i;
 			for (j++; j != st.maingame->obj_pool.end(); j++) {
 				collapse_result res = (*i)->collapseWith(**j);
-				res.normalize();
 				if (res.isCollapse) {
+					res.normalize();
 					(*i)->collapse(*j, res.opposide());
 					(*j)->collapse(*i, res);
 				}
 			}
 		}
 
-		if (rand() % 100 == 6)st.maingame->obj_pool.push_back(new buff());
+		if (rand() % 20 == 6)st.maingame->add_object(new buff());
 
 		st.maingame->keyboard_detection();
 		for (auto i = st.maingame->obj_pool.begin(); i != st.maingame->obj_pool.end();) {
-			if((*i)!=NULL) (**i).ticking();
+			(**i).ticking();
 			if ((*i)->get_state() == -1)
 			{
 				delete *i;

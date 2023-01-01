@@ -17,10 +17,11 @@ public:
 };
 
 buff::buff() {
-	x = double(rand() % 600+ 200),
-		y = double(rand() % 1000 + 200) ;
-	state = 4;
+	x = double(rand() % 800+ 200),
+		y = double(rand() % 400 + 200) ;
 	buff_state = rand() % 4;
+	direct = double(rand() % 700) / 700;
+	state = 50+buff_state+1;
 	return;
 }
 

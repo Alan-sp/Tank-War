@@ -5,8 +5,6 @@
 #ifndef MAIN_GAME_H
 #define MAIN_GAME_H
 
-#define KEY_DOWN(VK_NONAME) ((GetAsyncKeyState(VK_NONAME) & 0x8000) ? 1:0) 
-
 class main_game {
 public:
 	int game_mode;
@@ -19,6 +17,9 @@ public:
 	int down[181];
 	void* winner;
 
+	void init();
+	void load_map();
+	void clear_pool();
 	void keyboard_detection();
 	void add_object(object* obj);
 };

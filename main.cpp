@@ -30,37 +30,11 @@ int main()
 {
 	statics st;
 
-	st.maingame->obj_pool.push_back(new wall(5, 100, 0));
-	st.maingame->obj_pool.push_back(new wall(1195, 100, 0));
-	st.maingame->obj_pool.push_back(new wall(5, 300, 0));
-	st.maingame->obj_pool.push_back(new wall(1195, 300, 0));
-	st.maingame->obj_pool.push_back(new wall(5, 500, 0));
-	st.maingame->obj_pool.push_back(new wall(1195, 500, 0));
-	st.maingame->obj_pool.push_back(new wall(5, 700, 0));
-	st.maingame->obj_pool.push_back(new wall(1195, 700, 0));
-	st.maingame->obj_pool.push_back(new wall(100, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(100, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(300, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(300, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(500, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(500, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(700, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(700, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(900, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(900, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(1100, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(1100, 795, 3.1415926 / 2));
-
 	st.maingame->obj_pool.push_back(new rolling_wall(200, 200, 1, 0.05));
 	st.maingame->obj_pool.push_back(new wall(500, 500, 3));
 	st.maingame->obj_pool.push_back(new rolling_wall(200, 500, 9, -0.03));
 	st.maingame->obj_pool.push_back(new wall(700, 700, 5));
 	st.maingame->obj_pool.push_back(new rolling_wall(1000, 200, 10, 0.01));
-
-	st.maingame->obj_pool.push_back(new tank(100, 100, 0, 1, 87, 65, 83, 68, 81,"WASDQ"));
-	st.maingame->obj_pool.push_back(new tank(500, 200, 0, 2, 38, 37, 40, 39, 96,"NUMPAD"));
-	st.maingame->obj_pool.push_back(new tank(200, 500, 0, 3, 73, 74, 75, 76, 79,"IJKLO"));
-	st.maingame->tank_num = 3;
 
 	double tx[4] = { 32,32,-50,-50 }, ty[4] = { 32,-32,-32,32 };//Tank
 	double wx[4] = { 5,5,-5,-5 }, wy[4] = { 100,-100,-100,100 };
@@ -72,16 +46,20 @@ int main()
 	st.resource_library->add_model_resource(21, tm);
 	st.resource_library->add_model_resource(22, tm);
 	st.resource_library->add_model_resource(23, tm);
-	st.resource_library->add_model_resource(4, fm);
 	st.resource_library->add_image_resource(1, "D:/Resforgame/w.jpg");
 	st.resource_library->add_image_resource(21, "D:/Resforgame/tank1.png");
 	st.resource_library->add_image_resource(22, "D:/Resforgame/tank2.png");
 	st.resource_library->add_image_resource(23, "D:/Resforgame/tank3.png");
 	st.resource_library->add_image_resource(3, "D:/Resforgame/b.jpg");
-	st.resource_library->add_image_resource(4, "D:/Resforgame/buff.png");
+	for (int i = 1; i <=4 ; i++) {
+		char str[2010];
+		snprintf(str, 2000, "D:/Resforgame/buff/buff%d.png", i);
+		st.resource_library->add_image_resource(50 + i, str);
+		st.resource_library->add_model_resource(50 + i, fm);
+	}
 	for(int i=1;i<20;i++){
 		char str[2010];
-		snprintf(str, 2000, "D:/Resforgame//boom/bang%d.png", i);
+		snprintf(str, 2000, "D:/Resforgame/boom/bang%d.png", i);
 		st.resource_library->add_image_resource(100 + i, str);
 	}
 
