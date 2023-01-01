@@ -1,20 +1,26 @@
-#pragma once
-#include "resource_lib.h"
-#include "TankWarGUI.h"
-#include "main_game.h"
-#include "MyThread.h"
+
+#include <QApplication>
+
+#ifndef STATICS_H
+#define STATICS_H
 //static variables
 /*usage:
 * statics st;
 * st.image_resourse.xxxx
 */
 
+class resource_lib;
+class TankWarGUI;
+class main_game;
+class MyThread;
+
 class statics {
 public:
 
 	static QApplication qapp;
-	static resource_lib resource_library;
-	static TankWarGUI gui;
-	static main_game maingame;
-	static MyThread mthd;
+	static resource_lib* resource_library;
+	static TankWarGUI* gamegui;
+	static main_game* maingame;
+	static MyThread* mthd;
 };
+#endif // !STATICS_H

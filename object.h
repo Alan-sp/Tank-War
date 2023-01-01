@@ -1,5 +1,9 @@
-#pragma once
+
 #include "plane_model.h"
+
+#ifndef OBJECT_H
+#define OBJECT_H
+
 class object {
 public:
 	object() {
@@ -13,8 +17,8 @@ public:
 	object(const object& other) {
 		x = other.x, y = other.y, direct = other.direct, state = other.state;
 	}
-	collapse_result collapseWith(object & other);
-	virtual void collapse(object * other, collapse_result result) = 0;
+	collapse_result collapseWith(object& other);
+	virtual void collapse(object* other, collapse_result result) = 0;
 	virtual void ticking() = 0;
 	~object() {}
 	double get_x() { return x; }
@@ -25,5 +29,7 @@ protected:
 	double x, y;
 	int state;
 	double direct;
-	int hitpoint=1;
+	int hitpoint = 1;
 };
+
+#endif // !OBJECT_H

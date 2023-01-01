@@ -1,6 +1,9 @@
-#pragma once
+
 #include <cstddef>
 #include <cmath>
+
+#ifndef PLANE_MODEL_H
+#define PLANE_MODEL_H
 
 struct collapse_result {
 	bool isCollapse;
@@ -33,7 +36,7 @@ public:
 		type = 1, this->r = r, n = 0;
 		points_x = points_y = NULL;
 	}
-	plane_model(int n, double* x,double* y) {
+	plane_model(int n, double* x, double* y) {
 		type = 2, r = 0, this->n = n;
 		points_x = x, points_y = y;
 		double t;
@@ -49,3 +52,5 @@ public:
 	double* get_ys() { return points_y; }
 };
 
+
+#endif // !PLANE_MODEL_H

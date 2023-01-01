@@ -1,7 +1,11 @@
-#pragma once
+
 #include <unordered_map>
 #include "plane_model.h"
 #include <qpixmap.h>
+
+#ifndef RESOURCE_LIB_H
+#define RESOURCE_LIB_H
+
 class resource_lib
 {
 private:
@@ -14,7 +18,7 @@ public:
 		imap = std::unordered_map <int, QPixmap>();
 		//mmap = std::unordered_map <int, plane_model>();
 	}
-	~resource_lib(){}
+	~resource_lib() {}
 
 	bool add_image_resource(int flag, std::string file);
 	bool add_model_resource(int flag, plane_model model);
@@ -22,3 +26,5 @@ public:
 	plane_model get_model(int flag);
 
 };
+
+#endif // !RESOURCE_LIB_H

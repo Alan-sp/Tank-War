@@ -1,8 +1,11 @@
 #pragma once
+#include "statics.h"
 #include "TankWarGUI.h"
+#include "GameScene.h"
+#include "FinishPanel.h"
 #include "qpainter.h"
 #include "object.h"
-#include "statics.h"
+#include "MyThread.h"
 #include "ui_TankWarGUI.h"
 #include "qpainterpath.h"
 #include "qtransform.h"
@@ -12,43 +15,46 @@ TankWarGUI::TankWarGUI(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-	painting = false;
 	statics st;
-	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), &st.gui, SLOT(startGame()));
+	gamescene = new GameScene(this);
+	finishpanel = new FinishPanel(this);
+	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), this, SLOT(startGame()));
+	QObject::connect(this, SIGNAL(game_is_end()), this, SLOT(endGame()));
+	gamescene->hide();
+	finishpanel->hide();
 }
 
 void TankWarGUI::startGame() {
-	ui.pushButtonStart->setVisible(false);
-	ui.pushButtonSetting->setVisible(false);
-	ui.pushButtonMapEditor->setVisible(false);
+	ui.pushButtonStart->hide();
+	ui.pushButtonSetting->hide();
+	ui.pushButtonMapEditor->hide();
 	statics st;
-	emit st.mthd.MyThreadTTRan();
+	emit st.mthd->MyThreadTTRan();
+	gamescene->show();
+}
+
+void TankWarGUI::endGame() {
+	statics st;
+	emit st.mthd->MyThreadTTEnd();
+	gamescene->hide();
+	finishpanel->analysizeData();
+	finishpanel->show();
 }
 
 TankWarGUI::~TankWarGUI()
 {}
 
-void TankWarGUI::paintEvent(QPaintEvent* event) {
-	QPainter painter(this);
-	painter.setRenderHint(QPainter::Antialiasing, true);
-	statics st;
-	QPainterPath qpa;
-	qpa.addRect(0, 0, 1200, 900);
-	painter.fillPath(qpa, Qt::black);
-	painting = true;
-	for (auto i = objs.begin(); i != objs.end(); i++){
-		QTransform trans;
-		trans.rotate((**i).get_direction() * 180 / 3.1415926 - 90, Qt::ZAxis);
-		QPixmap pic = st.resource_library.get_image((**i).get_state()).transformed(trans);
-		painter.drawPixmap((**i).get_x()-pic.width()/2, (**i).get_y()-pic.height()/2, pic.width(), pic.height(), pic);
-	}
-	painting = false;
+void TankWarGUI::showMainFrame()
+{
+	gamescene->hide();
+	finishpanel->hide();
+	ui.pushButtonStart->show();
+	ui.pushButtonSetting->show();
+	ui.pushButtonMapEditor->show();
 }
 
 void TankWarGUI::paint_objects(std::list<object*> listz) {//paint all objects in objs
-	this->objs.clear();
-	this->objs = listz;
-	if(!painting)emit repaint_signal();
+	this->gamescene->paint_objects(listz);
 }
 
 void TankWarGUI::repaint_slot() {

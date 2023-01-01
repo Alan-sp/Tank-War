@@ -3,13 +3,14 @@
 #include "plane_model.h"
 #include <iostream>
 #include "statics.h"
+#include "resource_lib.h"
 #include "object.h"
 
 #define _2(X) ((X)*(X))
 collapse_result object::collapseWith(object & other)
 {
 	statics st;
-	plane_model a = st.resource_library.get_model(state),b=st.resource_library.get_model(other.state);
+	plane_model a = st.resource_library->get_model(state),b=st.resource_library->get_model(other.state);
 	collapse_result ret; ret.isCollapse = false, ret.dx = ret.dy = 0;
 	if (a.get_type() == 0 || b.get_type() == 0) {
 		return ret;
