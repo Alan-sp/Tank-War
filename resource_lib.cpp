@@ -27,5 +27,6 @@ plane_model resource_lib::get_model(int flag) {
 	/*auto i = mmap.find(flag);
 	if (i == mmap.end())return plane_model();
 	return i->second;*/
+	//if (flag < 0)return plane_model();
 	return mlist[flag];
 }

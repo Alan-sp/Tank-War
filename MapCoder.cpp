@@ -26,19 +26,20 @@ namespace MapCoder {
 
 	std::string encode(Map m) {
 		std::ostringstream oss("");
+		oss << m.objs.size() + m.spawns.size() << '\n';
 		for (auto i = m.objs.begin(); i != m.objs.end(); i++) {
 			if (wall* p = dynamic_cast<wall*>(*i)) {
-				oss << 1 << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction() << '\n';
+				oss << 1 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction() << '\n';
 			}
 			else if (rolling_wall* p = dynamic_cast<rolling_wall*>(*i)) {
-				oss << 2 << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction()<<p->rolling_speed << '\n';
+				oss << 2 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction()<<' ' << p->rolling_speed << '\n';
 			}
 			else if (buff* p = dynamic_cast<buff*>(*i)) {
-				oss << 3 << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction() << p->buff_state << '\n';
+				oss << 3 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction()<<' ' << p->buff_state << '\n';
 			}
 		}
 		for (auto i = m.spawns.begin(); i != m.spawns.end(); i++) {
-			oss << 4<< i->x << ' ' << i->y << ' ' << i->dir << '\n';
+			oss << 4 << ' ' << i->x << ' ' << i->y << ' ' << i->dir << '\n';
 		}
 		return oss.str();
 	}
