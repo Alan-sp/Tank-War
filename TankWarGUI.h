@@ -1,14 +1,14 @@
-
+﻿
 #include <QtWidgets/QMainWindow>
 #include "ui_TankWarGUI.h"
 #include "object.h"
+#include <QMediaPlayer>
 
 #ifndef TANKWARGUI_H
 #define TANKWARGUI_H
 
 class GameScene;
 class FinishPanel;
-class SettingsPage;
 
 class TankWarGUI : public QMainWindow
 {
@@ -25,13 +25,13 @@ public:
 private:
 	GameScene* gamescene;
 	FinishPanel* finishpanel;
-	SettingsPage* settingpage;
+    QMediaPlayer* startbgm,*gamebgm,*finishbgm;
 	Ui::TankWarGUIClass ui;
 public slots:
 	void repaint_slot();
 	void startGame();
 	void endGame();
-	void openSettings();
+    void GameBGMPlay();
 signals:
 	void repaint_signal();
 	void game_is_end();

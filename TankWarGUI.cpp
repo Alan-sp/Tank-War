@@ -1,16 +1,16 @@
-#pragma once
+﻿#pragma once
 #include "statics.h"
 #include "TankWarGUI.h"
-#include "ui_TankWarGUI.h"
 #include "GameScene.h"
 #include "FinishPanel.h"
 #include "qpainter.h"
 #include "object.h"
 #include "MyThread.h"
+#include "ui_TankWarGUI.h"
 #include "qpainterpath.h"
 #include "qtransform.h"
-#include "SettingsPage.h"
-#include <QtConcurrent>
+#include "QMediaPlayer"
+#include <QUrl>
 #include <iostream>
 
 TankWarGUI::TankWarGUI(QWidget* parent)
@@ -20,13 +20,17 @@ TankWarGUI::TankWarGUI(QWidget* parent)
 	statics st;
 	gamescene = new GameScene(this);
 	finishpanel = new FinishPanel(this);
-	settingpage = new SettingsPage(this);
+    startbgm = new QMediaPlayer;
+    gamebgm = new QMediaPlayer;
+    finishbgm = new QMediaPlayer;
+    startbgm->setMedia(QUrl::fromLocalFile("E:\\Tencent Files\\1487914438\\FileRecv\\deng.mp3"));
+    gamebgm->setMedia(QUrl::fromLocalFile("E:\\Tencent Files\\1487914438\\FileRecv\\game.aac"));
+    startbgm->play();
 	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), this, SLOT(startGame()));
-	QObject::connect(ui.pushButtonSetting, SIGNAL(clicked()), this, SLOT(openSettings()));
 	QObject::connect(this, SIGNAL(game_is_end()), this, SLOT(endGame()));
+    QObject::connect(ui.pushButtonStart,SIGNAL(clicked()),this,SLOT(GameBGMPlay()));
 	gamescene->hide();
 	finishpanel->hide();
-	settingpage->hide();
 }
 
 void TankWarGUI::startGame() {
@@ -48,16 +52,6 @@ void TankWarGUI::endGame() {
 	st.maingame->clear_pool();
 }
 
-void TankWarGUI::openSettings()
-{
-	ui.pushButtonStart->hide();
-	ui.pushButtonSetting->hide();
-	ui.pushButtonMapEditor->hide();
-	settingpage->syncSettings();
-	QFuture<void> future	= QtConcurrent::run(&SettingsPage::checkKeys, settingpage);
-	settingpage->show();
-}
-
 TankWarGUI::~TankWarGUI()
 {}
 
@@ -65,7 +59,6 @@ void TankWarGUI::showMainFrame()
 {
 	gamescene->hide();
 	finishpanel->hide();
-	settingpage->hide();
 	ui.pushButtonStart->show();
 	ui.pushButtonSetting->show();
 	ui.pushButtonMapEditor->show();
@@ -77,4 +70,8 @@ void TankWarGUI::paint_objects(std::list<object*> listz) {//paint all objects in
 
 void TankWarGUI::repaint_slot() {
 	this->repaint();
+}
+
+void TankWarGUI::GameBGMPlay(){
+    this->gamebgm->play();
 }
