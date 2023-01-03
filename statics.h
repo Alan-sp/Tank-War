@@ -13,6 +13,7 @@ class resource_lib;
 class TankWarGUI;
 class main_game;
 class MyThread;
+class MapEditor;
 
 class statics {
 public:
@@ -22,5 +23,6 @@ public:
 	static TankWarGUI* gamegui;
 	static main_game* maingame;
 	static MyThread* mthd;
+	static MapEditor* mapedit;
 };
 #endif // !STATICS_H

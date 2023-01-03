@@ -12,8 +12,8 @@ GameScene::GameScene(QWidget* parent)
 	: QWidget(parent)
 {
 	statics st;
-	QObject::connect(this, SIGNAL(repaint_signal()), this, SLOT(repaint_slot()));
 	this->setFixedSize(1200, 800);
+	QObject::connect(this, SIGNAL(repaint_signal()), this, SLOT(repaint_slot()));
 }
 
 GameScene::~GameScene()

@@ -13,9 +13,6 @@
 #define MYTHREAD_CPP
 
 void MyThread::ran() {
-
-	srand(time(NULL));
-
 	statics st;
 	long timeused = 0, starttime, standardTickTime = 15;
 	running = true;

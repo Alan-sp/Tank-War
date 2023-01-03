@@ -14,35 +14,46 @@ main_game::main_game() {
 
 void main_game::init()
 {
-	statics st;
-	st.maingame->obj_pool.push_back(new wall(5, 100, 0));
-	st.maingame->obj_pool.push_back(new wall(1195, 100, 0));
-	st.maingame->obj_pool.push_back(new wall(5, 300, 0));
-	st.maingame->obj_pool.push_back(new wall(1195, 300, 0));
-	st.maingame->obj_pool.push_back(new wall(5, 500, 0));
-	st.maingame->obj_pool.push_back(new wall(1195, 500, 0));
-	st.maingame->obj_pool.push_back(new wall(5, 700, 0));
-	st.maingame->obj_pool.push_back(new wall(1195, 700, 0));
-	st.maingame->obj_pool.push_back(new wall(100, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(100, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(300, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(300, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(500, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(500, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(700, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(700, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(900, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(900, 795, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(1100, 5, 3.1415926 / 2));
-	st.maingame->obj_pool.push_back(new wall(1100, 795, 3.1415926 / 2));
+	obj_pool.push_back(new wall(5, 100, 0));
+	obj_pool.push_back(new wall(1195, 100, 0));
+	obj_pool.push_back(new wall(5, 300, 0));
+	obj_pool.push_back(new wall(1195, 300, 0));
+	obj_pool.push_back(new wall(5, 500, 0));
+	obj_pool.push_back(new wall(1195, 500, 0));
+	obj_pool.push_back(new wall(5, 700, 0));
+	obj_pool.push_back(new wall(1195, 700, 0));
+	obj_pool.push_back(new wall(100, 5, 3.1415926 / 2));
+	obj_pool.push_back(new wall(100, 795, 3.1415926 / 2));
+	obj_pool.push_back(new wall(300, 5, 3.1415926 / 2));
+	obj_pool.push_back(new wall(300, 795, 3.1415926 / 2));
+	obj_pool.push_back(new wall(500, 5, 3.1415926 / 2));
+	obj_pool.push_back(new wall(500, 795, 3.1415926 / 2));
+	obj_pool.push_back(new wall(700, 5, 3.1415926 / 2));
+	obj_pool.push_back(new wall(700, 795, 3.1415926 / 2));
+	obj_pool.push_back(new wall(900, 5, 3.1415926 / 2));
+	obj_pool.push_back(new wall(900, 795, 3.1415926 / 2));
+	obj_pool.push_back(new wall(1100, 5, 3.1415926 / 2));
+	obj_pool.push_back(new wall(1100, 795, 3.1415926 / 2));
 
-	st.maingame->obj_pool.push_back(new tank(100, 100, 0, 1, keybinds1[0], keybinds1[1], keybinds1[2], keybinds1[3], keybinds1[4], name1.toStdString()));
-	st.maingame->obj_pool.push_back(new tank(500, 200, 0, 2,keybinds2[0], keybinds2[1], keybinds2[2], keybinds2[3], keybinds2[4], name2.toStdString()));
-	st.maingame->tank_num = 2;
+	for (auto i = gamemap.objs.begin(); i != gamemap.objs.end(); i++)obj_pool.push_back(*i);
+
+	auto i = gamemap.spawns.begin();
+	if (i == gamemap.spawns.end()) 
+		obj_pool.push_back(new tank(500, 400, 0, 1, keybinds1[0], keybinds1[1], keybinds1[2], keybinds1[3], keybinds1[4], name1.toStdString()));
+	else {
+		obj_pool.push_back(new tank((*i).x, (*i).y, (*i).dir, 1, keybinds1[0], keybinds1[1], keybinds1[2], keybinds1[3], keybinds1[4], name1.toStdString()));
+		i++;
+	}
+	if(i!=gamemap.spawns.end())
+		obj_pool.push_back(new tank((*i).x, (*i).y, (*i).dir, 2, keybinds2[0], keybinds2[1], keybinds2[2], keybinds2[3], keybinds2[4], name2.toStdString()));
+	else
+		obj_pool.push_back(new tank(700, 400, 0, 2, keybinds2[0], keybinds2[1], keybinds2[2], keybinds2[3], keybinds2[4], name2.toStdString()));
+	tank_num = 2;
 }
 
-void main_game::load_map()
+void main_game::load_map(std::string input)
 {
+	gamemap = MapCoder::decode(input);
 }
 
 void main_game::clear_pool() {

@@ -1,38 +1,26 @@
 #include "statics.h"
-#include "main_game.h"
-#include "object.h"
+#include "tank.h"
 #include <cmath>
 #include "bullet.cpp"
+#include "main_game.h"
 #include <iostream>
 #include "boom_anime.h"
 
 #ifndef TANK_CPP
 #define TANK_CPP
 
-class tank :public object {
-public:
-	double speed;
-	double wspeed;//弧度制 
-	int name, tw, ta, ts, td, tshoot, cd_time,currentcd;
-	long shootcount, hitcount;
-	std::string strname;
-	int attack_id;
-	int buff_state;
-	tank(double dx, double dy, double dir, int m, int tw, int ta, int ts, int td, int tshoot, std::string strname) :object(dx, dy, dir) {
-		state = 20 + m; name = m;
-		statics st;
-		speed = st.maingame->tankSpeed, wspeed = 0.05;
-		this->tw = tw, this->ta = ta, this->ts = ts, this->td = td;
-		this->tshoot = tshoot;
-		hitpoint = st.maingame->tankHP, currentcd = cd_time = st.maingame->tankCD;
-		shootcount = hitcount = 0;
-		this->strname = strname;
-		attack_id = st.maingame->bulletDamage,buff_state = 0;
-	};
-	void ticking();
-	void collapse(object* other, collapse_result result);
-	void Q_buff();
+tank::tank(double dx, double dy, double dir, int m, int tw, int ta, int ts, int td, int tshoot, std::string strname) :object(dx, dy, dir) {
+	state = 20 + m; name = m;
+	statics st;
+	speed = st.maingame->tankSpeed, wspeed = 0.05;
+	this->tw = tw, this->ta = ta, this->ts = ts, this->td = td;
+	this->tshoot = tshoot;
+	hitpoint = st.maingame->tankHP, currentcd = cd_time = st.maingame->tankCD;
+	shootcount = hitcount = 0;
+	this->strname = strname;
+	attack_id = st.maingame->bulletDamage, buff_state = 0;
 };
+
 void tank::Q_buff() {
 	statics st;
 	bullet* test_bullet = new bullet(x + 50 * cos(direct), y + 50 * sin(direct), direct, this, attack_id);

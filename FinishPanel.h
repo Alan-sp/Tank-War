@@ -20,6 +20,7 @@ private:
 
 public slots:
 	void returnToMainFrame();
+	void restartGame();
 };
 
 

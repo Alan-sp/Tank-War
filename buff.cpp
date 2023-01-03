@@ -1,7 +1,7 @@
 
 #include "object.h"
 #include <ctime>
-#include "tank.cpp"
+#include "tank.h"
 #ifndef BUFF_CPP
 #define BUFF_CPP
 
@@ -9,6 +9,7 @@ class buff :public object
 {
 public:
 	buff();
+	buff(double, double, double, int);
 	void get_buff(object* other);
 	~buff() {};
 	int buff_state;
@@ -23,6 +24,12 @@ buff::buff() {
 	direct = double(rand() % 700) / 700;
 	state = 50+buff_state+1;
 	return;
+}
+
+buff::buff(double xx, double yy , double dir, int type)
+{
+	x = xx, y = yy, direct = dir, state = 50 + type + 1;
+	buff_state = type;
 }
 
 void buff::collapse(object* other, collapse_result result) {

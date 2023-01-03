@@ -1,6 +1,8 @@
 #include <cmath>
 #include "object.h"
 #include<list>
+#include <iostream>
+#include "MapCoder.cpp"
 #include <qstring.h>
 
 #ifndef MAIN_GAME_H
@@ -12,6 +14,7 @@ public:
 	main_game();
 	~main_game();
 	std::list<object*> obj_pool;
+	MapCoder::Map gamemap;
 	int tank_num;
 	int down[181];
 	void* winner;
@@ -21,7 +24,7 @@ public:
 	int bulletHP = 10, tankSpeed = 4, bulletSpeed = 5, buffFrequence = 200;
 
 	void init();
-	void load_map();
+	void load_map(std::string input);
 	void clear_pool();
 	void keyboard_detection();
 	void add_object(object* obj);

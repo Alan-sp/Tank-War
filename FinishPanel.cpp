@@ -11,7 +11,9 @@ FinishPanel::FinishPanel(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	statics st;
 	QObject::connect(ui.pushButtonReturn, SIGNAL(clicked()), this, SLOT(returnToMainFrame()));
+	QObject::connect(ui.pushButtonRestart, SIGNAL(clicked()), this,SLOT(restartGame()));
 }
 
 FinishPanel::~FinishPanel()
@@ -26,6 +28,13 @@ void FinishPanel::analysizeData()
 	char str[2010];
 	snprintf(str, 2000, "%s 发射了%d枚炮弹，其中%d枚命中", winner->strname.c_str(), winner->shootcount, winner->hitcount);
 	ui.interestringLabel1->setText(str);
+}
+
+void FinishPanel::restartGame()
+{
+	statics st;
+	this->hide();
+	emit st.gamegui->restart_game();
 }
 
 void FinishPanel::returnToMainFrame() {

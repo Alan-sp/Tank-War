@@ -29,12 +29,16 @@ MyThread* statics::mthd = new MyThread();
 int main()
 {
 	statics st;
+	srand(time(NULL));
 
-	st.maingame->obj_pool.push_back(new rolling_wall(200, 200, 1, 0.05));
+	/*st.maingame->obj_pool.push_back(new rolling_wall(200, 200, 1, 0.05));
 	st.maingame->obj_pool.push_back(new wall(500, 500, 3));
 	st.maingame->obj_pool.push_back(new rolling_wall(200, 500, 9, -0.03));
 	st.maingame->obj_pool.push_back(new wall(700, 700, 5));
-	st.maingame->obj_pool.push_back(new rolling_wall(1000, 200, 10, 0.01));
+	st.maingame->obj_pool.push_back(new rolling_wall(1000, 200, 10, 0.01));*/
+
+	std::string code1("7\n1 500 500 3\n1 700 700 5\n2 200 200 1 0.05\n2 200 500 9 -0.03\n2 1000 200 10 0.01\n4 100 100 0\n4 500 200 0");
+	st.maingame->load_map(code1);
 
 	double tx[4] = { 32,32,-50,-50 }, ty[4] = { 32,-32,-32,32 };//Tank
 	double wx[4] = { 5,5,-5,-5 }, wy[4] = { 100,-100,-100,100 };
