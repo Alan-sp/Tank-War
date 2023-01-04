@@ -190,7 +190,7 @@
     </font>
    </property>
    <property name="text">
-    <string>玩家二前进</string>
+    <string>玩家二后退</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -294,7 +294,7 @@
     </font>
    </property>
    <property name="text">
-    <string>玩家二左转</string>
+    <string>玩家二右转</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -701,6 +701,58 @@
      <width>91</width>
      <height>21</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_22">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>530</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>每tick用时(ms)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEditTickTime">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>540</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_23">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>570</y>
+     <width>261</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>注意：调整这个参数会严重影响游戏的稳定性</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

@@ -14,7 +14,7 @@
 
 void MyThread::ran() {
 	statics st;
-	long timeused = 0, starttime, standardTickTime = 15,finishDelay=0;
+	long timeused = 0, starttime, standardTickTime = st.maingame->ticktime,finishDelay=0;
 	running = true;
 	while (running) {
 		st.gamegui->paint_objects(st.maingame->obj_pool);

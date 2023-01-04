@@ -216,7 +216,7 @@ void MapEditor::attentionToSelected()
 {
 	attentionSelected = true;
 	this->repaint();
-	QThread::msleep(500);
+	QThread::msleep(300);
 	attentionSelected = false;
 	this->repaint();
 }

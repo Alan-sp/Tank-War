@@ -31,7 +31,7 @@ private:
 	SettingsPage* settingpage;
 	MapEditor* mapeditor;
 	MapLoadPage* maploadpage;
-	QMediaPlayer* startbgm, * gamebgm, * finishbgm;
+	QMediaPlayer* startbgm, * gamebgm;
 	Ui::TankWarGUIClass ui;
 public slots:
 	void repaint_slot();

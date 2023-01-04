@@ -32,7 +32,7 @@ void bullet::ticking() {
 	if (hitpoint <= 0 || x < 0 || x>1200 || y < 0 || y>800)state = -1;
 }
 void bullet::collapse(object* other, collapse_result result) {
-	if ((*other).get_state() == 1&&!invisible) {
+	if (((*other).get_state() == 1||(*other).get_state()/10==1) && !invisible) {
 		x += result.dx, y += result.dy, hitpoint--;
 		double temp = sqrt(result.dx * result.dx + result.dy * result.dy);
 		if (temp > real_speed)real_speed = temp - real_speed;

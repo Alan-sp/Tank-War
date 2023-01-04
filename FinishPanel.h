@@ -1,5 +1,7 @@
 
 #include <QWidget>
+#include <QMediaPlayer>
+#include <QApplication>
 #include "ui_FinishPanel.h"
 #include "tank.cpp"
 
@@ -17,7 +19,7 @@ public:
 	void analysizeData();
 private:
 	Ui::FinishPanelClass ui;
-
+	QMediaPlayer* finishbgm;
 public slots:
 	void returnToMainFrame();
 	void restartGame();

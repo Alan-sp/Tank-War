@@ -22,6 +22,7 @@ public:
 	int keybinds1[5] = { 87, 65, 83, 68, 81 }, keybinds2[5] = { 38, 37, 40, 39, 96 };
 	int tankCD = 100, tankHP = 5, bulletDamage = 1, buffBulletDamage = 2;
 	int bulletHP = 10, tankSpeed = 4, bulletSpeed = 5, buffFrequence = 200;
+	long ticktime = 15;
 	std::string mapstr;
 
 	void init();

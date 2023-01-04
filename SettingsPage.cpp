@@ -33,6 +33,7 @@ SettingsPage::SettingsPage(QWidget *parent)
 	ui.lineEditTankCD->setValidator(new QIntValidator(this));
 	ui.lineEditTankHP->setValidator(new QIntValidator(this));
 	ui.lineEditTankSpeed->setValidator(new QIntValidator(this));
+	ui.lineEditTickTime->setValidator(new QIntValidator(this));
 	running = false;
 }
 
@@ -62,6 +63,7 @@ void SettingsPage::syncSettings()
 	ui.lineEditTankCD->setText(QString::number(st.maingame->tankCD));
 	ui.lineEditTankHP->setText(QString::number(st.maingame->tankHP));
 	ui.lineEditTankSpeed->setText(QString::number(st.maingame->tankSpeed));
+	ui.lineEditTickTime->setText(QString::number(st.maingame->ticktime));
 	running = true;
 }
 
@@ -105,6 +107,7 @@ void SettingsPage::saveSettings()
 	st.maingame->tankCD = ui.lineEditTankCD->text().toInt();
 	st.maingame->tankHP = ui.lineEditTankHP->text().toInt();
 	st.maingame->tankSpeed = ui.lineEditTankSpeed->text().toInt();
+	st.maingame->ticktime= ui.lineEditTickTime->text().toInt();
 }
 
 void SettingsPage::back_to_menu() {
