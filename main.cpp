@@ -35,18 +35,29 @@ int main()
 	double tx[4] = { 32,32,-50,-50 }, ty[4] = { 32,-32,-32,32 };//Tank
 	double wx[4] = { 5,5,-5,-5 }, wy[4] = { 100,-100,-100,100 };
 	double bx[4] = { 20,20,-20,-20 }, by[4] = { 20,-20,-20,20 };
+	double shortwallx[4] = { 5,5,-5,-5 }, shortwally[4] = { 25,-25,-25,25 };
+	double midwallx[4] = { 5,5,-5,-5 }, midwally[4] = { 50,-50,-50,50 };
+	double blockx[4] = { 50,50,-50,-50 }, blocky[4] = { 50,-50,-50,50 };
 	plane_model wm(4, wx, wy); plane_model tm(4, tx, ty);
 	plane_model bm(5.0); plane_model fm(4,bx,by);
+	plane_model swm(4, shortwallx, shortwally); plane_model mwm(4, midwallx, midwally);
+	plane_model blockm(4, blockx, blocky);
 	st.resource_library->add_model_resource(1, wm);
 	st.resource_library->add_model_resource(3, bm);
 	st.resource_library->add_model_resource(21, tm);
 	st.resource_library->add_model_resource(22, tm);
 	st.resource_library->add_model_resource(23, tm);
+	st.resource_library->add_model_resource(10, swm);
+	st.resource_library->add_model_resource(11, mwm);
+	st.resource_library->add_model_resource(12, blockm);
 	st.resource_library->add_image_resource(1, "D:/Resforgame/w.jpg");
 	st.resource_library->add_image_resource(21, "D:/Resforgame/tank1.png");
 	st.resource_library->add_image_resource(22, "D:/Resforgame/tank2.png");
 	st.resource_library->add_image_resource(23, "D:/Resforgame/tank3.png");
-	st.resource_library->add_image_resource(3, "D:/Resforgame/b.jpg");
+	st.resource_library->add_image_resource(3, "D:/Resforgame/b.png");
+	st.resource_library->add_image_resource(10, "D:/Resforgame/sw.jpg");
+	st.resource_library->add_image_resource(11, "D:/Resforgame/mw.jpg");
+	st.resource_library->add_image_resource(12, "D:/Resforgame/block.jpg");
 	for (int i = 1; i <=4 ; i++) {
 		char str[2010];
 		snprintf(str, 2000, "D:/Resforgame/buff/buff%d.png", i);

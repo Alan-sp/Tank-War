@@ -17,6 +17,7 @@ MapEditor::MapEditor(QWidget *parent)
 
 	qclipb = QApplication::clipboard();
 	attentionSelected = false;
+	for (int i = 0; i < 10; i++)total[i] = 0;
 
 	rwvalidator = new QDoubleValidator();
 	bfvalidator = new QIntValidator(1, 4);
@@ -36,6 +37,9 @@ MapEditor::MapEditor(QWidget *parent)
 	QObject::connect(ui.actionBuff, SIGNAL(triggered()), this, SLOT(addBuff()));
 	QObject::connect(ui.actionTankSpawn, SIGNAL(triggered()), this, SLOT(addSpawn()));
 	QObject::connect(ui.actionRandomMap, SIGNAL(triggered()), this, SLOT(randomMap()));
+	QObject::connect(ui.actionShortWall, SIGNAL(triggered()), this, SLOT(addShortWall()));
+	QObject::connect(ui.actionMidWall, SIGNAL(triggered()), this, SLOT(addMidWall()));
+	QObject::connect(ui.actionMovableBlock, SIGNAL(triggered()), this, SLOT(addMovableBlock()));
 
 	this->repaint();
 }
@@ -115,19 +119,29 @@ void MapEditor::loadFromMap()
 	}
 	objs.clear();
 	ui.listWidget->clear();
-	totalIndex = 0, totalWall = 0, totalRollingWall = 0, totalBuff = 0, totalTank = 0;
+	totalIndex = 0;
+	for (int i = 0; i < 10; i++)total[i] = 0;
 	QListWidgetItem* p;
 	for (auto i = tempmap.objs.begin(); i != tempmap.objs.end(); i++) {
 		objs[++totalIndex] = *i;
 		std::ostringstream oss("");
 		if (wall* p = dynamic_cast<wall*>(*i)) {
-			oss << "Wall" << totalWall; totalWall++;
+			oss << "Wall" << total[0]; total[0]++;
 		}
 		else if (rolling_wall* p = dynamic_cast<rolling_wall*>(*i)) {
-			oss << "RollingWall" << totalRollingWall; totalRollingWall++;
+			oss << "RollingWall" << total[1]; total[1]++;
 		}
 		else if (buff* p = dynamic_cast<buff*>(*i)) {
-			oss << "Buff" << totalBuff; totalBuff++;
+			oss << "Buff" << total[2]; total[2]++;
+		}
+		else if (shortwall* p = dynamic_cast<shortwall*>(*i)) {
+			oss << "ShortWall" << total[4]; total[4]++;
+		}
+		else if (midwall* p = dynamic_cast<midwall*>(*i)) {
+			oss << "MidWall" << total[5]; total[5]++;
+		}
+		else if (movableblock* p = dynamic_cast<movableblock*>(*i)) {
+			oss << "Block" << total[6]; total[6]++;
 		}
 		p = new QListWidgetItem(QString::fromStdString(oss.str()));
 		p->setData(1, totalIndex);
@@ -136,7 +150,7 @@ void MapEditor::loadFromMap()
 	for (auto i = tempmap.spawns.begin(); i != tempmap.spawns.end(); i++) {
 		objs[++totalIndex] = new tank((*i).x, (*i).y, (*i).dir, 1, 0, 0, 0, 0, 0, "Spawn");
 		std::ostringstream oss("");
-		oss << "TankSpawn" << totalTank; totalTank++;
+		oss << "TankSpawn" << total[3]; total[3]++;
 		p = new QListWidgetItem(QString::fromStdString(oss.str()));
 		p->setData(1, totalIndex);
 		ui.listWidget->addItem(p);
@@ -169,7 +183,6 @@ void MapEditor::syncToSelection()
 	{
 	case 1:
 		p = new wall(xx, yy, dir);
-
 		break;
 	case 2:
 		wspeed = ui.lineEditSA->text().toDouble();
@@ -181,6 +194,15 @@ void MapEditor::syncToSelection()
 		break;
 	case 4:
 		p = new tank(xx, yy, dir, 1, 0, 0, 0, 0, 0, "Spawn");
+		break;
+	case 10:
+		p = new shortwall(xx, yy, dir);
+		break;
+	case 11:
+		p = new midwall(xx, yy, dir);
+		break;
+	case 12:
+		p = new movableblock(xx, yy, dir);
 		break;
 	default:
 		break;
@@ -248,6 +270,7 @@ void MapEditor::selectionChanged(QListWidgetItem* item)
 		if (wall* p = dynamic_cast<wall*>(selected)) {
 			ui.labelObjName->setText("Wall");
 			ui.labelSpecialSettingName->setText("None");
+			ui.lineEditSA->clear();
 			selectedType = 1;
 		}
 		else if (rolling_wall* p = dynamic_cast<rolling_wall*>(selected)) {
@@ -266,7 +289,25 @@ void MapEditor::selectionChanged(QListWidgetItem* item)
 		}else if (tank* p = dynamic_cast<tank*>(selected)) {
 			ui.labelObjName->setText("TankSpawn");
 			ui.labelSpecialSettingName->setText("None");
+			ui.lineEditSA->clear();
 			selectedType = 4;
+		}
+		else if (shortwall* p = dynamic_cast<shortwall*>(selected)) {
+			ui.labelObjName->setText("ShortWall");
+			ui.labelSpecialSettingName->setText("None");
+			ui.lineEditSA->clear();
+			selectedType = 10;
+		}
+		else if (midwall* p = dynamic_cast<midwall*>(selected)) {
+			ui.labelObjName->setText("MidWall");
+			ui.labelSpecialSettingName->setText("None");
+			ui.lineEditSA->clear();
+			selectedType = 11;
+		}
+		else if (movableblock* p = dynamic_cast<movableblock*>(selected)) {
+			ui.labelObjName->setText("Block");
+			ui.labelSpecialSettingName->setText("None");
+			selectedType = 12;
 		}
 	}
 	else {
@@ -302,7 +343,7 @@ void MapEditor::syncSelectionText()
 void MapEditor::addWall()
 {
 	std::ostringstream oss("");
-	oss << "Wall" << totalWall; totalWall++;
+	oss << "Wall" << total[0]; total[0]++;
 	object* newobj= new wall(800, 600, 0);
 	objs[++totalIndex] = newobj;
 	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
@@ -316,7 +357,7 @@ void MapEditor::addWall()
 void MapEditor::addRollingWall()
 {
 	std::ostringstream oss("");
-	oss << "RollingWall" << totalWall; totalWall++;
+	oss << "RollingWall" << total[1]; total[1]++;
 	object* newobj = new rolling_wall(800, 600, 0,0);
 	objs[++totalIndex] = newobj;
 	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
@@ -330,7 +371,7 @@ void MapEditor::addRollingWall()
 void MapEditor::addBuff()
 {
 	std::ostringstream oss("");
-	oss << "Buff" << totalWall; totalWall++;
+	oss << "Buff" << total[2]; total[2]++;
 	object* newobj = new buff(800, 600, 0,0);
 	objs[++totalIndex] = newobj;
 	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
@@ -344,7 +385,7 @@ void MapEditor::addBuff()
 void MapEditor::addSpawn()
 {
 	std::ostringstream oss("");
-	oss << "TankSpawn" << totalWall; totalWall++;
+	oss << "TankSpawn" << total[3]; total[3]++;
 	object* newobj = new tank(800, 600, 0, 1, 0, 0, 0, 0, 0, "Spawn");
 	objs[++totalIndex] = newobj;
 	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
@@ -363,4 +404,46 @@ void MapEditor::randomMap()
 	delete oss;
 	loadFromMap();
 	this->repaint();
+}
+
+void MapEditor::addShortWall()
+{
+	std::ostringstream oss("");
+	oss << "ShortWall" << total[4]; total[4]++;
+	object* newobj = new shortwall(800, 600, 0);
+	objs[++totalIndex] = newobj;
+	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
+	p->setData(1, totalIndex);
+	ui.listWidget->addItem(p);
+	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 1;
+	selectionChanged(selectedItem);
+	attentionToSelected();
+}
+
+void MapEditor::addMidWall()
+{
+	std::ostringstream oss("");
+	oss << "MidWall" << total[5]; total[5]++;
+	object* newobj = new midwall(800, 600, 0);
+	objs[++totalIndex] = newobj;
+	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
+	p->setData(1, totalIndex);
+	ui.listWidget->addItem(p);
+	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 1;
+	selectionChanged(selectedItem);
+	attentionToSelected();
+}
+
+void MapEditor::addMovableBlock()
+{
+	std::ostringstream oss("");
+	oss << "Block" << total[6]; total[6]++;
+	object* newobj = new movableblock(800, 600, 0);
+	objs[++totalIndex] = newobj;
+	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
+	p->setData(1, totalIndex);
+	ui.listWidget->addItem(p);
+	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 1;
+	selectionChanged(selectedItem);
+	attentionToSelected();
 }

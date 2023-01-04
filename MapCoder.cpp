@@ -1,10 +1,13 @@
-#include <list>
+﻿#include <list>
 #include <iostream>
 #include <sstream>
 #include "object.h"
 #include "buff.cpp"
 #include "rolling_wall.h"
 #include "wall.cpp"
+#include "shortwall.cpp"
+#include "midwall.cpp"
+#include "movableblock.cpp"
 #include "tank.h"
 
 #ifndef MAPCODER_CPP
@@ -36,6 +39,15 @@ namespace MapCoder {
 			}
 			else if (buff* p = dynamic_cast<buff*>(*i)) {
 				oss << 3 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction()<<' ' << p->buff_state << '\n';
+			}
+			else if (shortwall* p = dynamic_cast<shortwall*>(*i)) {
+				oss << 10 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction() << '\n';
+			}
+			else if (midwall* p = dynamic_cast<midwall*>(*i)) {
+				oss << 11 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction() << '\n';
+			}
+			else if (movableblock* p = dynamic_cast<movableblock*>(*i)) {
+				oss << 12 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction() << '\n';
 			}
 		}
 		for (auto i = m.spawns.begin(); i != m.spawns.end(); i++) {
@@ -71,6 +83,18 @@ namespace MapCoder {
 				Point t;
 				t.x = x, t.y = y, t.dir = dir;
 				ret.spawns.push_back(t);
+				break;
+			case 10:
+				iss >> x >> y >> dir;
+				ret.objs.push_back(new shortwall(x, y, dir));
+				break;
+			case 11:
+				iss >> x >> y >> dir;
+				ret.objs.push_back(new midwall(x, y, dir));
+				break;
+			case 12:
+				iss >> x >> y >> dir;
+				ret.objs.push_back(new movableblock(x, y, dir));
 				break;
 			default:
 				break;

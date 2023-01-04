@@ -211,6 +211,9 @@
     <addaction name="actionPartWall"/>
     <addaction name="actionBuff"/>
     <addaction name="actionTankSpawn"/>
+    <addaction name="actionShortWall"/>
+    <addaction name="actionMidWall"/>
+    <addaction name="actionMovableBlock"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -270,6 +273,21 @@
   <action name="actionRandomMap">
    <property name="text">
     <string>随机生成一张地图</string>
+   </property>
+  </action>
+  <action name="actionShortWall">
+   <property name="text">
+    <string>ShortWall</string>
+   </property>
+  </action>
+  <action name="actionMidWall">
+   <property name="text">
+    <string>MidWall</string>
+   </property>
+  </action>
+  <action name="actionMovableBlock">
+   <property name="text">
+    <string>MovableBlock</string>
    </property>
   </action>
  </widget>

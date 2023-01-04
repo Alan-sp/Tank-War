@@ -33,7 +33,7 @@ private:
 	QMutex lock;
 	bool attentionSelected;
 	int selectedIndex,selectedType;
-	int totalIndex = 0, totalWall = 0, totalRollingWall = 0, totalBuff = 0, totalTank = 0;
+	int totalIndex = 0, total[10];
 	object* selected;
 	std::map<int, object*> objs;
 	QListWidgetItem* selectedItem;
@@ -58,6 +58,9 @@ public slots:
 	void addBuff();
 	void addSpawn();
 	void randomMap();
+	void addShortWall();
+	void addMidWall();
+	void addMovableBlock();
 };
 
 #endif // !MAPEDITOR_H
