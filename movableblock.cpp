@@ -15,7 +15,7 @@ public:
 
 void movableblock::collapse(object* other, collapse_result result)
 {
-	if (other->get_state() / 10 != 50)
+	if (other->get_state() / 10 != 5)
 		x += result.dx,y+=result.dy;
 }
 

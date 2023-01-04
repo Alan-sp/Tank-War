@@ -8,6 +8,7 @@
 #include <qthread.h>
 #include "mapcreate.cpp"
 #include "base64.cpp"
+#include "triangle.h"
 
 MapEditor::MapEditor(QWidget *parent)
 	: QMainWindow(parent)
@@ -40,6 +41,7 @@ MapEditor::MapEditor(QWidget *parent)
 	QObject::connect(ui.actionShortWall, SIGNAL(triggered()), this, SLOT(addShortWall()));
 	QObject::connect(ui.actionMidWall, SIGNAL(triggered()), this, SLOT(addMidWall()));
 	QObject::connect(ui.actionMovableBlock, SIGNAL(triggered()), this, SLOT(addMovableBlock()));
+	QObject::connect(ui.actionTriangle, SIGNAL(triggered()), this, SLOT(addTriangle()));
 
 	this->repaint();
 }
@@ -142,6 +144,8 @@ void MapEditor::loadFromMap()
 		}
 		else if (movableblock* p = dynamic_cast<movableblock*>(*i)) {
 			oss << "Block" << total[6]; total[6]++;
+		}else if(triangle* p = dynamic_cast<triangle*>(*i)) {
+			oss << "RollingWall" << total[7]; total[7]++;
 		}
 		p = new QListWidgetItem(QString::fromStdString(oss.str()));
 		p->setData(1, totalIndex);
@@ -203,6 +207,10 @@ void MapEditor::syncToSelection()
 		break;
 	case 12:
 		p = new movableblock(xx, yy, dir);
+		break;
+	case 13:
+		wspeed = ui.lineEditSA->text().toDouble();
+		p = new triangle(xx, yy, dir, wspeed);
 		break;
 	default:
 		break;
@@ -308,6 +316,13 @@ void MapEditor::selectionChanged(QListWidgetItem* item)
 			ui.labelObjName->setText("Block");
 			ui.labelSpecialSettingName->setText("None");
 			selectedType = 12;
+		}
+		else if (triangle* p = dynamic_cast<triangle*>(selected)) {
+			ui.labelObjName->setText("Triangle");
+			ui.labelSpecialSettingName->setText("旋转速度");
+			ui.lineEditSA->setText(QString::number(p->rolling_speed));
+			ui.lineEditSA->setValidator(rwvalidator);
+			selectedType = 13;
 		}
 	}
 	else {
@@ -415,7 +430,7 @@ void MapEditor::addShortWall()
 	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
 	p->setData(1, totalIndex);
 	ui.listWidget->addItem(p);
-	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 1;
+	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 10;
 	selectionChanged(selectedItem);
 	attentionToSelected();
 }
@@ -429,7 +444,7 @@ void MapEditor::addMidWall()
 	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
 	p->setData(1, totalIndex);
 	ui.listWidget->addItem(p);
-	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 1;
+	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 11;
 	selectionChanged(selectedItem);
 	attentionToSelected();
 }
@@ -443,7 +458,21 @@ void MapEditor::addMovableBlock()
 	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
 	p->setData(1, totalIndex);
 	ui.listWidget->addItem(p);
-	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 1;
+	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 12;
+	selectionChanged(selectedItem);
+	attentionToSelected();
+}
+
+void MapEditor::addTriangle()
+{
+	std::ostringstream oss("");
+	oss << "Triangle" << total[7]; total[7]++;
+	object* newobj = new triangle(800, 600, 0, 0);
+	objs[++totalIndex] = newobj;
+	QListWidgetItem* p = new QListWidgetItem(QString::fromStdString(oss.str()));
+	p->setData(1, totalIndex);
+	ui.listWidget->addItem(p);
+	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 13;
 	selectionChanged(selectedItem);
 	attentionToSelected();
 }

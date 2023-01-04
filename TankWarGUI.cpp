@@ -33,8 +33,8 @@ TankWarGUI::TankWarGUI(QWidget* parent)
 	maploadpage = new MapLoadPage(this);
 	startbgm = new QMediaPlayer();
 	gamebgm = new QMediaPlayer();
-	startbgm->setSource(QUrl::fromLocalFile("./Resforgame/start.mp3"));
-	gamebgm->setSource(QUrl::fromLocalFile("./Resforgame/game.mp3"));
+	startbgm->setSource(QUrl::fromLocalFile("D:/Resforgame/start.mp3"));
+	gamebgm->setSource(QUrl::fromLocalFile("D:/Resforgame/game.mp3"));
 	startbgm->play();
 	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), this, SLOT(openMapLoad()));
 	QObject::connect(ui.pushButtonSetting, SIGNAL(clicked()), this, SLOT(openSettings()));
@@ -57,6 +57,7 @@ void TankWarGUI::startGame() {
 	ui.pushButtonStart->hide();
 	ui.pushButtonSetting->hide();
 	ui.pushButtonMapEditor->hide();
+	this->setFocus();
 	statics st;
 	st.maingame->init();
 	emit st.mthd->MyThreadTTRan();
@@ -69,7 +70,7 @@ void TankWarGUI::endGame() {
 	gamescene->hide();
 	finishpanel->analysizeData();
 	finishpanel->show();
-	st.maingame->clear_pool();
+	this->setFocus();
 }
 
 void TankWarGUI::openSettings()
@@ -80,7 +81,7 @@ void TankWarGUI::openSettings()
 	settingpage->syncSettings();
 	QFuture<void> future	= QtConcurrent::run(&SettingsPage::checkKeys, settingpage);
 	settingpage->show();
-	gamebgm->play();
+	this->setFocus();
 }
 
 void TankWarGUI::openMapLoad()
@@ -88,18 +89,21 @@ void TankWarGUI::openMapLoad()
 	ui.pushButtonStart->hide();
 	ui.pushButtonSetting->hide();
 	ui.pushButtonMapEditor->hide();
-
+	gamebgm->play();
 	maploadpage->show();
+	this->setFocus();
 }
 
 void TankWarGUI::openMapEditor()
 {
 	mapeditor->show();
+	this->setFocus();
 }
 
 void TankWarGUI::pauseGame()
 {
 	gamescene->hide();
+	this->setFocus();
 	ui.pushButtonResume->show();
 	ui.pushButtonReturn->show();
 }
@@ -109,6 +113,7 @@ void TankWarGUI::unpauseGame()
 	statics st;
 	emit st.mthd->MyThreadTTRan();
 	gamescene->show();
+	this->setFocus();
 	ui.pushButtonResume->hide();
 	ui.pushButtonReturn->hide();
 }
@@ -117,6 +122,7 @@ void TankWarGUI::return_to_menu()
 {
 	statics st;
 	st.maingame->clear_pool();
+	this->setFocus();
 	showMainFrame();
 }
 
@@ -134,6 +140,7 @@ void TankWarGUI::showMainFrame()
 	ui.pushButtonStart->show();
 	ui.pushButtonSetting->show();
 	ui.pushButtonMapEditor->show();
+	this->setFocus();
 }
 
 void TankWarGUI::paint_objects(std::list<object*> listz) {//paint all objects in objs
@@ -142,4 +149,5 @@ void TankWarGUI::paint_objects(std::list<object*> listz) {//paint all objects in
 
 void TankWarGUI::repaint_slot() {
 	this->repaint();
+	this->setFocus();
 }

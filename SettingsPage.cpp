@@ -108,6 +108,7 @@ void SettingsPage::saveSettings()
 	st.maingame->tankHP = ui.lineEditTankHP->text().toInt();
 	st.maingame->tankSpeed = ui.lineEditTankSpeed->text().toInt();
 	st.maingame->ticktime= ui.lineEditTickTime->text().toInt();
+	this->setFocus();
 }
 
 void SettingsPage::back_to_menu() {

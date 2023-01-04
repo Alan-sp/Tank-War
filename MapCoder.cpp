@@ -9,6 +9,7 @@
 #include "midwall.cpp"
 #include "movableblock.cpp"
 #include "tank.h"
+#include "triangle.h"
 
 #ifndef MAPCODER_CPP
 #define MAPCODER_CPP
@@ -48,6 +49,9 @@ namespace MapCoder {
 			}
 			else if (movableblock* p = dynamic_cast<movableblock*>(*i)) {
 				oss << 12 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction() << '\n';
+			}
+			else if (triangle* p = dynamic_cast<triangle*>(*i)) {
+				oss << 13 << ' ' << p->get_x() << ' ' << p->get_y() << ' ' << p->get_direction() << ' ' << p->rolling_speed << '\n';
 			}
 		}
 		for (auto i = m.spawns.begin(); i != m.spawns.end(); i++) {
@@ -95,6 +99,10 @@ namespace MapCoder {
 			case 12:
 				iss >> x >> y >> dir;
 				ret.objs.push_back(new movableblock(x, y, dir));
+				break;
+			case 13:
+				iss >> x >> y >> dir >> sa;
+				ret.objs.push_back(new triangle(x, y, dir, sa));
 				break;
 			default:
 				break;

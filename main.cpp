@@ -38,10 +38,11 @@ int main()
 	double shortwallx[4] = { 5,5,-5,-5 }, shortwally[4] = { 25,-25,-25,25 };
 	double midwallx[4] = { 5,5,-5,-5 }, midwally[4] = { 50,-50,-50,50 };
 	double blockx[4] = { 50,50,-50,-50 }, blocky[4] = { 50,-50,-50,50 };
+	double trix[3] = { 0,-49,49 }, triy[3] = { -49,44,44 };
 	plane_model wm(4, wx, wy); plane_model tm(4, tx, ty);
 	plane_model bm(5.0); plane_model fm(4,bx,by);
 	plane_model swm(4, shortwallx, shortwally); plane_model mwm(4, midwallx, midwally);
-	plane_model blockm(4, blockx, blocky);
+	plane_model blockm(4, blockx, blocky); plane_model trim(3, trix, triy);
 	st.resource_library->add_model_resource(1, wm);
 	st.resource_library->add_model_resource(3, bm);
 	st.resource_library->add_model_resource(21, tm);
@@ -50,23 +51,25 @@ int main()
 	st.resource_library->add_model_resource(10, swm);
 	st.resource_library->add_model_resource(11, mwm);
 	st.resource_library->add_model_resource(12, blockm);
-	st.resource_library->add_image_resource(1, "./Resforgame/w.jpg");
-	st.resource_library->add_image_resource(21, "./Resforgame/tank1.png");
-	st.resource_library->add_image_resource(22, "./Resforgame/tank2.png");
-	st.resource_library->add_image_resource(23, "./Resforgame/tank3.png");
-	st.resource_library->add_image_resource(3, "./Resforgame/b.png");
-	st.resource_library->add_image_resource(10, "./Resforgame/sw.jpg");
-	st.resource_library->add_image_resource(11, "./Resforgame/mw.jpg");
-	st.resource_library->add_image_resource(12, "./Resforgame/block.jpg");
+	st.resource_library->add_model_resource(13, trim);
+	st.resource_library->add_image_resource(1, "D:/Resforgame/w.jpg");
+	st.resource_library->add_image_resource(21, "D:/Resforgame/tank1.png");
+	st.resource_library->add_image_resource(22, "D:/Resforgame/tank2.png");
+	st.resource_library->add_image_resource(23, "D:/Resforgame/tank3.png");
+	st.resource_library->add_image_resource(3, "D:/Resforgame/b.png");
+	st.resource_library->add_image_resource(10, "D:/Resforgame/sw.jpg");
+	st.resource_library->add_image_resource(11, "D:/Resforgame/mw.jpg");
+	st.resource_library->add_image_resource(12, "D:/Resforgame/block.jpg");
+	st.resource_library->add_image_resource(13, "D:/Resforgame/triangle.png");
 	for (int i = 1; i <=4 ; i++) {
 		char str[2010];
-		snprintf(str, 2000, "./Resforgame/buff/buff%d.png", i);
+		snprintf(str, 2000, "D:/Resforgame/buff/buff%d.png", i);
 		st.resource_library->add_image_resource(50 + i, str);
 		st.resource_library->add_model_resource(50 + i, fm);
 	}
 	for(int i=1;i<20;i++){
 		char str[2010];
-		snprintf(str, 2000, "./Resforgame/boom/bang%d.png", i);
+		snprintf(str, 2000, "D:/Resforgame/boom/bang%d.png", i);
 		st.resource_library->add_image_resource(100 + i, str);
 	}
 

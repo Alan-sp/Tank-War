@@ -61,6 +61,7 @@ public slots:
 	void addShortWall();
 	void addMidWall();
 	void addMovableBlock();
+	void addTriangle();
 };
 
 #endif // !MAPEDITOR_H

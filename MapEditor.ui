@@ -214,6 +214,7 @@
     <addaction name="actionShortWall"/>
     <addaction name="actionMidWall"/>
     <addaction name="actionMovableBlock"/>
+    <addaction name="actionTriangle"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -288,6 +289,11 @@
   <action name="actionMovableBlock">
    <property name="text">
     <string>MovableBlock</string>
+   </property>
+  </action>
+  <action name="actionTriangle">
+   <property name="text">
+    <string>Triangle</string>
    </property>
   </action>
  </widget>

@@ -23,6 +23,7 @@ void rolling_wall::ticking()
 {
 	direct += rolling_speed;
 	if (direct > 3.1415926 * 2)direct -= 3.1415926 * 2;
+	if (direct < -3.1415926 * 2)direct += 3.1415926 * 2;
 }
 
 #endif // !ROLLING_WALL_H

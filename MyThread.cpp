@@ -67,7 +67,8 @@ void MyThread::ran() {
 		if (st.maingame->tank_num < 2&&finishDelay==0) {
 			for (auto i = st.maingame->obj_pool.begin(); i != st.maingame->obj_pool.end(); i++)
 				if ((*i)->get_state() / 10 == 2) {
-					st.maingame->winner = *i;
+					tank* p = static_cast<tank*>(*i);
+					st.maingame->winner = new tank(*p);
 					break;
 				}
 			finishDelay = 1;
