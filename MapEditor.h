@@ -31,6 +31,7 @@ private:
 	QClipboard* qclipb;
 	MapCoder::Map tempmap;
 	QMutex lock;
+	bool attentionSelected;
 	int selectedIndex,selectedType;
 	int totalIndex = 0, totalWall = 0, totalRollingWall = 0, totalBuff = 0, totalTank = 0;
 	object* selected;
@@ -42,6 +43,7 @@ private:
 	void loadFromMap();
 	void syncToMap();
 	void syncToSelection();
+	void attentionToSelected();
 
 public slots:
 	void save_to_clipboard();
@@ -55,6 +57,7 @@ public slots:
 	void addRollingWall();
 	void addBuff();
 	void addSpawn();
+	void randomMap();
 };
 
 #endif // !MAPEDITOR_H

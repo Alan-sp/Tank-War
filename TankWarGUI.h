@@ -11,6 +11,7 @@ class GameScene;
 class FinishPanel;
 class SettingsPage;
 class MapEditor;
+class MapLoadPage;
 
 class TankWarGUI : public QMainWindow
 {
@@ -29,6 +30,7 @@ private:
 	FinishPanel* finishpanel;
 	SettingsPage* settingpage;
 	MapEditor* mapeditor;
+	MapLoadPage* maploadpage;
 	QMediaPlayer* startbgm, * gamebgm, * finishbgm;
 	Ui::TankWarGUIClass ui;
 public slots:
@@ -36,6 +38,7 @@ public slots:
 	void startGame();
 	void endGame();
 	void openSettings();
+	void openMapLoad();
 	void openMapEditor();
 signals:
 	void repaint_signal();

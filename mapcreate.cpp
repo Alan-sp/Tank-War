@@ -6,17 +6,17 @@
 #ifndef MAPCREATE_CPP
 #define MAPCREATE_CPP
 
-#define pai 3.1415926
 namespace mapcreate {
 	struct mapx {
 		double x, y;
 		int id;
 		double special;
 	}wall[10][10];
-	void generateMap(std::ostringstream cout)
+	void generateMap(std::ostringstream* cout)
 	{
 		double mapx = 1200, mapy = 800;
 		int n = 5, m = 5;
+		*cout << 30 << std::endl;
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= m; j++) {
 				double sx = mapx * (j - 1) / m;
@@ -31,7 +31,7 @@ namespace mapcreate {
 					wall[i][j].x = ssx;
 					wall[i][j].y = ssy;
 					wall[i][j].special = 0;
-					cout << "1" << " " << ssx << " " << ssy << " " << (rand() % 180) * pai << std::endl;
+					*cout << "1" << " " << ssx << " " << ssy << " " << (rand() % 7)  << std::endl;
 				}
 				else {
 					wall[i][j].id = (i - 1) * n + j;
@@ -39,27 +39,20 @@ namespace mapcreate {
 					double ssy = rand() % (int)ly + ((double)(rand() % 10)) / 100 + sy;
 					wall[i][j].x = ssx;
 					wall[i][j].y = ssy;
-					wall[i][j].special = (rand() % 180) * pai;
-					cout << "2" << " " << ssx << " " << ssy << " " << wall[i][j].special << std::endl;
+					wall[i][j].special = 1.0*(rand() % 180) /180;
+					*cout << "2" << " " << ssx << " " << ssy << " " << (rand() % 7)  << " " << wall[i][j].special << std::endl;
 				}
 			}
 		}
-		for (int i = 1; i <= 8; i++) {
+		for(int i=0;i<5;i++)
+		{
 			double ssx = rand() % (int)mapx + ((double)(rand() % 10)) / 100;
 			double ssy = rand() % (int)mapy + ((double)(rand() % 10)) / 100;
-			int buff = rand() % 4 + 1;
-			cout << "3" << " " << ssx << " " << ssy << " " << buff << std::endl;
+			*cout << "4" << ' ' << ssx << " " << ssy << " " << (rand() % 7) << std::endl;
 		}
-		double ssx = rand() % (int)mapx + ((double)(rand() % 10)) / 100;
-		double ssy = rand() % (int)mapy + ((double)(rand() % 10)) / 100;
-		cout << "4" << ssx << " " << ssy << " " << 0 << std::endl;
-		ssx = rand() % (int)mapx + ((double)(rand() % 10)) / 100;
-		ssy = rand() % (int)mapy + ((double)(rand() % 10)) / 100;
-		cout << "4" << ssx << " " << ssy << " " << 0 << std::endl;
 		return;
 	}
 }
-#undef pai
 #endif // !MAPCREATE_CPP
 
 

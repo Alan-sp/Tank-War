@@ -3,6 +3,7 @@
 #include<windows.h>
 #include <iostream>
 #include "tank.cpp"
+#include "base64.cpp"
 #include "bullet.cpp"
 #include "wall.cpp"
 
@@ -67,7 +68,7 @@ void main_game::init()
 
 void main_game::load_map(std::string input)
 {
-	mapstr = input;
+	mapstr = Base64::decode(input);
 }
 
 void main_game::clear_pool() {

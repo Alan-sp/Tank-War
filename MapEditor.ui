@@ -214,13 +214,15 @@
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
-     <string>文件</string>
+     <string>地图</string>
     </property>
     <addaction name="actionReadFromFile"/>
     <addaction name="actionReadFromClipboard"/>
     <addaction name="separator"/>
     <addaction name="actionSaveToFile"/>
     <addaction name="actionCopyToClipboard"/>
+    <addaction name="separator"/>
+    <addaction name="actionRandomMap"/>
    </widget>
    <addaction name="menu_2"/>
    <addaction name="menu"/>
@@ -263,6 +265,11 @@
   <action name="actionCopyToClipboard">
    <property name="text">
     <string>复制到剪贴板</string>
+   </property>
+  </action>
+  <action name="actionRandomMap">
+   <property name="text">
+    <string>随机生成一张地图</string>
    </property>
   </action>
  </widget>

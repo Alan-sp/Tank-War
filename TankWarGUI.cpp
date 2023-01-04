@@ -11,6 +11,7 @@
 #include "qtransform.h"
 #include "SettingsPage.h"
 #include "MapEditor.h"
+#include "MapLoadPage.h"
 #include "QMediaPlayer"
 #include <QUrl>
 #include <QtConcurrent>
@@ -27,13 +28,14 @@ TankWarGUI::TankWarGUI(QWidget* parent)
 	finishpanel = new FinishPanel(this);
 	settingpage = new SettingsPage(this);
 	mapeditor = new MapEditor();
+	maploadpage = new MapLoadPage(this);
 	startbgm = new QMediaPlayer();
 	gamebgm = new QMediaPlayer();
 	finishbgm = new QMediaPlayer();
 	//startbgm->setMedia(QUrl::fromLocalFile("E:\\Tencent Files\\1487914438\\FileRecv\\deng.mp3"));
 	//gamebgm->setMedia(QUrl::fromLocalFile("E:\\Tencent Files\\1487914438\\FileRecv\\game.aac"));
 	startbgm->play();
-	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), this, SLOT(startGame()));
+	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), this, SLOT(openMapLoad()));
 	QObject::connect(ui.pushButtonSetting, SIGNAL(clicked()), this, SLOT(openSettings()));
 	QObject::connect(ui.pushButtonMapEditor, SIGNAL(clicked()), this, SLOT(openMapEditor()));
 	QObject::connect(this, SIGNAL(game_is_end()), this, SLOT(endGame()));
@@ -42,6 +44,7 @@ TankWarGUI::TankWarGUI(QWidget* parent)
 	finishpanel->hide();
 	settingpage->hide();
 	mapeditor->hide();
+	maploadpage->hide();
 }
 
 void TankWarGUI::startGame() {
@@ -74,6 +77,15 @@ void TankWarGUI::openSettings()
 	settingpage->show();
 }
 
+void TankWarGUI::openMapLoad()
+{
+	ui.pushButtonStart->hide();
+	ui.pushButtonSetting->hide();
+	ui.pushButtonMapEditor->hide();
+
+	maploadpage->show();
+}
+
 void TankWarGUI::openMapEditor()
 {
 	mapeditor->show();
@@ -85,6 +97,7 @@ TankWarGUI::~TankWarGUI()
 void TankWarGUI::showMainFrame()
 {
 	gamescene->hide();
+	maploadpage->hide();
 	finishpanel->hide();
 	settingpage->hide();
 	mapeditor->hide();

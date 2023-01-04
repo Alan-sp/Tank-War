@@ -25,6 +25,7 @@ MyThread* statics::mthd = new MyThread();
 #include "tank.cpp"
 #include "rolling_wall.h"
 #include "wall.cpp"
+#include "base64.cpp"
 
 int main()
 {
@@ -32,7 +33,7 @@ int main()
 	srand(time(NULL));
 
 	std::string code1("11 1 500 500 3 1 841 561 3.8 2 200 200 1 0.05 2 658 349 -1 -0.03 2 1000 200 10 0.01 1 167 552 0 1 261 453 4.7 1 365 549 0 1 268 647 -1.6 4 500 200 0 4 269 551 0");
-	st.maingame->load_map(code1);
+	st.maingame->load_map(Base64::encrypt(code1));
 
 	double tx[4] = { 32,32,-50,-50 }, ty[4] = { 32,-32,-32,32 };//Tank
 	double wx[4] = { 5,5,-5,-5 }, wy[4] = { 100,-100,-100,100 };

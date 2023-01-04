@@ -5,6 +5,9 @@
 #include "resource_lib.h"
 #include "statics.h"
 #include <sstream>
+#include <qthread.h>
+#include "mapcreate.cpp"
+#include "base64.cpp"
 
 MapEditor::MapEditor(QWidget *parent)
 	: QMainWindow(parent)
@@ -13,6 +16,7 @@ MapEditor::MapEditor(QWidget *parent)
 	this->setFixedSize(1300, 800);
 
 	qclipb = QApplication::clipboard();
+	attentionSelected = false;
 
 	rwvalidator = new QDoubleValidator();
 	bfvalidator = new QIntValidator(1, 4);
@@ -31,6 +35,7 @@ MapEditor::MapEditor(QWidget *parent)
 	QObject::connect(ui.actionPartRollingWall, SIGNAL(triggered()), this, SLOT(addRollingWall()));
 	QObject::connect(ui.actionBuff, SIGNAL(triggered()), this, SLOT(addBuff()));
 	QObject::connect(ui.actionTankSpawn, SIGNAL(triggered()), this, SLOT(addSpawn()));
+	QObject::connect(ui.actionRandomMap, SIGNAL(triggered()), this, SLOT(randomMap()));
 
 	this->repaint();
 }
@@ -47,10 +52,20 @@ void MapEditor::paintEvent(QPaintEvent* event) {
 	qpa.addRect(0, 0, 1200, 800);
 	painter.fillPath(qpa, Qt::black);
 	for (auto i = objs.begin(); i != objs.end();) {
-		QTransform trans;
-		trans.rotate((*i).second->get_direction() * 180 / 3.1415926 - 90, Qt::ZAxis);
-		QPixmap pic = st.resource_library->get_image((*i).second->get_state()).transformed(trans);
-		painter.drawPixmap((*i).second->get_x() - pic.width() / 2, (*i).second->get_y() - pic.height() / 2, pic.width(), pic.height(), pic);
+		if (attentionSelected) {
+			if ((*i).second == selected) {
+				QTransform trans;
+				trans.rotate((*i).second->get_direction() * 180 / 3.1415926 - 90, Qt::ZAxis);
+				QPixmap pic = st.resource_library->get_image((*i).second->get_state()).transformed(trans);
+				painter.drawPixmap((*i).second->get_x() - pic.width() / 2, (*i).second->get_y() - pic.height() / 2, pic.width(), pic.height(), pic);
+			}
+		}
+		else {
+			QTransform trans;
+			trans.rotate((*i).second->get_direction() * 180 / 3.1415926 - 90, Qt::ZAxis);
+			QPixmap pic = st.resource_library->get_image((*i).second->get_state()).transformed(trans);
+			painter.drawPixmap((*i).second->get_x() - pic.width() / 2, (*i).second->get_y() - pic.height() / 2, pic.width(), pic.height(), pic);
+		}
 		if (i != objs.end())i++;
 	}
 	lock.unlock();
@@ -86,7 +101,7 @@ void MapEditor::wheelEvent(QWheelEvent* event)
 
 void MapEditor::save_to_clipboard() {
 	syncToMap();
-	qclipb->setText(QString::fromStdString(MapCoder::encode(tempmap)));
+	qclipb->setText(QString::fromStdString(Base64::encrypt(MapCoder::encode(tempmap))));
 	this->repaint();
 }
 
@@ -175,9 +190,18 @@ void MapEditor::syncToSelection()
 	objs[selectedIndex] = p, selected = p;
 }
 
+void MapEditor::attentionToSelected()
+{
+	attentionSelected = true;
+	this->repaint();
+	QThread::msleep(500);
+	attentionSelected = false;
+	this->repaint();
+}
+
 void MapEditor::read_from_clipboard()
 {
-	tempmap = MapCoder::decode(qclipb->text().toStdString());
+	tempmap = MapCoder::decode(Base64::decode(qclipb->text().toStdString()));
 	loadFromMap();
 	this->repaint();
 }
@@ -191,7 +215,7 @@ void MapEditor::save_to_file()
 		QMessageBox::critical(this, "错误", "无法打开文件");
 		return;
 	}
-	ofs << MapCoder::encode(tempmap);
+	ofs << Base64::encrypt(MapCoder::encode(tempmap));
 	ofs.flush();
 	ofs.close();
 	this->repaint();
@@ -208,7 +232,7 @@ void MapEditor::read_from_file()
 	std::istreambuf_iterator<char> beg(ifs), end;
 	std::string strdata(beg, end);
 	ifs.close();
-	tempmap = MapCoder::decode(strdata);
+	tempmap = MapCoder::decode(Base64::decode(strdata));
 	loadFromMap();
 	this->repaint();
 }
@@ -253,6 +277,7 @@ void MapEditor::selectionChanged(QListWidgetItem* item)
 		ui.lineEditSA->clear();
 		ui.labelSpecialSettingName->setText("None");
 	}
+	attentionToSelected();
 }
 
 void MapEditor::removeObject()
@@ -285,7 +310,7 @@ void MapEditor::addWall()
 	ui.listWidget->addItem(p);
 	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 1;
 	selectionChanged(selectedItem);
-	this->repaint();
+	attentionToSelected();
 }
 
 void MapEditor::addRollingWall()
@@ -299,7 +324,7 @@ void MapEditor::addRollingWall()
 	ui.listWidget->addItem(p);
 	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 2;
 	selectionChanged(selectedItem);
-	this->repaint();
+	attentionToSelected();
 }
 
 void MapEditor::addBuff()
@@ -313,7 +338,7 @@ void MapEditor::addBuff()
 	ui.listWidget->addItem(p);
 	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 3;
 	selectionChanged(selectedItem);
-	this->repaint();
+	attentionToSelected();
 }
 
 void MapEditor::addSpawn()
@@ -327,5 +352,15 @@ void MapEditor::addSpawn()
 	ui.listWidget->addItem(p);
 	selectedIndex = totalIndex, selected = newobj, selectedItem = p, selectedType = 4;
 	selectionChanged(selectedItem);
+	attentionToSelected();
+}
+
+void MapEditor::randomMap()
+{
+	std::ostringstream* oss=new std::ostringstream("");
+	mapcreate::generateMap(oss);
+	tempmap = MapCoder::decode(oss->str());
+	delete oss;
+	loadFromMap();
 	this->repaint();
 }
