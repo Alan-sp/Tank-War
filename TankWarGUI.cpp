@@ -40,11 +40,16 @@ TankWarGUI::TankWarGUI(QWidget* parent)
 	QObject::connect(ui.pushButtonMapEditor, SIGNAL(clicked()), this, SLOT(openMapEditor()));
 	QObject::connect(this, SIGNAL(game_is_end()), this, SLOT(endGame()));
 	QObject::connect(this, SIGNAL(restart_game()), this, SLOT(startGame()));
+	QObject::connect(ui.pushButtonResume, SIGNAL(clicked()), this, SLOT(unpauseGame()));
+	QObject::connect(ui.pushButtonReturn, SIGNAL(clicked()), this, SLOT(return_to_menu()));
+	QObject::connect(this, SIGNAL(game_is_paused()), this, SLOT(pauseGame()));
 	gamescene->hide();
 	finishpanel->hide();
 	settingpage->hide();
 	mapeditor->hide();
 	maploadpage->hide();
+	ui.pushButtonResume->hide();
+	ui.pushButtonReturn->hide();
 }
 
 void TankWarGUI::startGame() {
@@ -91,6 +96,27 @@ void TankWarGUI::openMapEditor()
 	mapeditor->show();
 }
 
+void TankWarGUI::pauseGame()
+{
+	gamescene->hide();
+	ui.pushButtonResume->show();
+	ui.pushButtonReturn->show();
+}
+
+void TankWarGUI::unpauseGame()
+{
+	statics st;
+	emit st.mthd->MyThreadTTRan();
+	gamescene->show();
+	ui.pushButtonResume->hide();
+	ui.pushButtonReturn->hide();
+}
+
+void TankWarGUI::return_to_menu()
+{
+	showMainFrame();
+}
+
 TankWarGUI::~TankWarGUI()
 {}
 
@@ -100,7 +126,6 @@ void TankWarGUI::showMainFrame()
 	maploadpage->hide();
 	finishpanel->hide();
 	settingpage->hide();
-	mapeditor->hide();
 	ui.pushButtonStart->show();
 	ui.pushButtonSetting->show();
 	ui.pushButtonMapEditor->show();

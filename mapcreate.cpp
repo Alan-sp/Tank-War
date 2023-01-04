@@ -39,7 +39,7 @@ namespace mapcreate {
 					double ssy = rand() % (int)ly + ((double)(rand() % 10)) / 100 + sy;
 					wall[i][j].x = ssx;
 					wall[i][j].y = ssy;
-					wall[i][j].special = 1.0*(rand() % 180) /180;
+					wall[i][j].special = 1.0*(rand() % 18) /180;
 					*cout << "2" << " " << ssx << " " << ssy << " " << (rand() % 7)  << " " << wall[i][j].special << std::endl;
 				}
 			}

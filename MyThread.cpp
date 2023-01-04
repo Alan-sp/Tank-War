@@ -14,7 +14,7 @@
 
 void MyThread::ran() {
 	statics st;
-	long timeused = 0, starttime, standardTickTime = 15;
+	long timeused = 0, starttime, standardTickTime = 15,finishDelay=0;
 	running = true;
 	while (running) {
 		st.gamegui->paint_objects(st.maingame->obj_pool);
@@ -47,6 +47,12 @@ void MyThread::ran() {
 		if (rand() % st.maingame->buffFrequence == 0 )st.maingame->add_object(new buff());
 
 		st.maingame->keyboard_detection();
+
+		if (st.maingame->down[27]) {
+			emit st.gamegui->game_is_paused();
+			return;
+		}
+
 		for (auto i = st.maingame->obj_pool.begin(); i != st.maingame->obj_pool.end();) {
 			(**i).ticking();
 			if ((*i)->get_state() == -1)
@@ -58,12 +64,16 @@ void MyThread::ran() {
 				i++;
 		}
 		timeused = clock() - starttime;
-		if (st.maingame->tank_num < 2) {
+		if (st.maingame->tank_num < 2&&finishDelay==0) {
 			for (auto i = st.maingame->obj_pool.begin(); i != st.maingame->obj_pool.end(); i++)
 				if ((*i)->get_state() / 10 == 2) {
 					st.maingame->winner = *i;
 					break;
 				}
+			finishDelay = 1;
+		}
+		if (finishDelay)finishDelay++;
+		if (finishDelay==100) {
 			emit st.gamegui->game_is_end();
 			running = false;
 		}

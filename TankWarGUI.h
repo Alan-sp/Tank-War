@@ -40,9 +40,13 @@ public slots:
 	void openSettings();
 	void openMapLoad();
 	void openMapEditor();
+	void pauseGame();
+	void unpauseGame();
+	void return_to_menu();
 signals:
 	void repaint_signal();
 	void game_is_end();
+	void game_is_paused();
 	void restart_game();
 };
 
