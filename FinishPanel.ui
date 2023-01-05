@@ -34,7 +34,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="titleLabel">
+  <widget class="QLabel" name="TankWarMapEditor">
    <property name="geometry">
     <rect>
      <x>500</x>

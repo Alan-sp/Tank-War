@@ -145,7 +145,7 @@ void MapEditor::loadFromMap()
 		else if (movableblock* p = dynamic_cast<movableblock*>(*i)) {
 			oss << "Block" << total[6]; total[6]++;
 		}else if(triangle* p = dynamic_cast<triangle*>(*i)) {
-			oss << "RollingWall" << total[7]; total[7]++;
+			oss << "Triangle" << total[7]; total[7]++;
 		}
 		p = new QListWidgetItem(QString::fromStdString(oss.str()));
 		p->setData(1, totalIndex);

@@ -20,6 +20,7 @@ public:
 private:
 	Ui::FinishPanelClass ui;
 	QMediaPlayer* finishbgm;
+	void removeObjs();
 public slots:
 	void returnToMainFrame();
 	void restartGame();

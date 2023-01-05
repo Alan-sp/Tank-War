@@ -63,7 +63,7 @@ namespace MapCoder {
 	Map decode(std::string code) {
 		std::istringstream iss(code);
 		Map ret;
-		int n,id;
+		int n = 0, id;
 		double x, y, dir, sa;
 		iss >> n;
 		while (n--) {

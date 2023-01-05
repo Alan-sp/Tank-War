@@ -33,8 +33,8 @@ TankWarGUI::TankWarGUI(QWidget* parent)
 	maploadpage = new MapLoadPage(this);
 	startbgm = new QMediaPlayer();
 	gamebgm = new QMediaPlayer();
-	startbgm->setSource(QUrl::fromLocalFile("D:/Resforgame/start.mp3"));
-	gamebgm->setSource(QUrl::fromLocalFile("D:/Resforgame/game.mp3"));
+	startbgm->setSource(QUrl::fromLocalFile("./Resforgame/start.mp3"));
+	gamebgm->setSource(QUrl::fromLocalFile("./Resforgame/game.mp3"));
 	startbgm->play();
 	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), this, SLOT(openMapLoad()));
 	QObject::connect(ui.pushButtonSetting, SIGNAL(clicked()), this, SLOT(openSettings()));
@@ -68,9 +68,8 @@ void TankWarGUI::endGame() {
 	statics st;
 	emit st.mthd->MyThreadTTEnd();
 	gamescene->hide();
-	finishpanel->analysizeData();
 	finishpanel->show();
-	this->setFocus();
+	finishpanel->analysizeData();
 }
 
 void TankWarGUI::openSettings()

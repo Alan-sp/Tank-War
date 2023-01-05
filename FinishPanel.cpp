@@ -4,7 +4,7 @@
 #include "resource_lib.h"
 #include "main_game.h"
 #include "statics.h"
-
+#include <QtConcurrent>
 #include <algorithm>
 
 FinishPanel::FinishPanel(QWidget *parent)
@@ -15,11 +15,16 @@ FinishPanel::FinishPanel(QWidget *parent)
 	finishbgm = new QMediaPlayer();
 	QObject::connect(ui.pushButtonReturn, SIGNAL(clicked()), this, SLOT(returnToMainFrame()));
 	QObject::connect(ui.pushButtonRestart, SIGNAL(clicked()), this,SLOT(restartGame()));
-	finishbgm->setSource(QUrl::fromLocalFile("D:/Resforgame/finish.mp3"));
+	finishbgm->setSource(QUrl::fromLocalFile("./Resforgame/finish.mp3"));
 }
 
 FinishPanel::~FinishPanel()
 {}
+
+void FinishPanel::removeObjs() {
+	statics st;
+	st.maingame->clear_pool();
+}
 
 void FinishPanel::analysizeData()
 {
@@ -39,7 +44,13 @@ void FinishPanel::analysizeData()
 	}
 	finishbgm->play();
 	this->setFocus();
-	st.maingame->clear_pool();
+	ui.pushButtonRestart->setEnabled(false);
+	ui.pushButtonReturn->setEnabled(false);
+	this->repaint();
+	QFuture<void> ftr=  QtConcurrent::run(&FinishPanel::removeObjs, this);
+	ftr.waitForFinished();
+	ui.pushButtonRestart->setEnabled(true);
+	ui.pushButtonReturn->setEnabled(true);
 }
 
 void FinishPanel::restartGame()

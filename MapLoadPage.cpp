@@ -21,6 +21,7 @@ MapLoadPage::MapLoadPage(QWidget *parent)
 	QObject::connect(ui.pushButtonReturn, SIGNAL(clicked()), this, SLOT(return_to_menu()));
 	QObject::connect(ui.pushButtonStart, SIGNAL(clicked()), this, SLOT(startGame()));
 
+	ui.textEdit->setText("");
 }
 
 MapLoadPage::~MapLoadPage()
